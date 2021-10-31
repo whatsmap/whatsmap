@@ -1,5 +1,8 @@
 package kr.pe.whatsmap.dto;
 
+import lombok.Data;
+
+@Data
 public class ParkinglotDTO {
 
     private double latitude;

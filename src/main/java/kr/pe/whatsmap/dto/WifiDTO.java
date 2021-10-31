@@ -1,5 +1,8 @@
 package kr.pe.whatsmap.dto;
 
+import lombok.*;
+
+@Data
 public class WifiDTO {
 
     private double latitude;
