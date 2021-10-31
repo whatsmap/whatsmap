@@ -7,9 +7,9 @@ class App extends Component{
   render(){
     return (
       <div className="App">
-        <p>TEST1</p>
-        TEST2
-        <Map>TEST3</Map>
+        <p>TEST1app</p>
+        TEST2app
+        <Map>TEST3app</Map>
   
       </div>
 
