@@ -1,5 +1,6 @@
 package kr.pe.whatsmap.domain;
 
+
 public class Cctv {
 
     private Long idx;
