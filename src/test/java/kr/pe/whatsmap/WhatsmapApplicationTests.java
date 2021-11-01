@@ -8,6 +8,7 @@ class WhatsmapApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

@@ -1,9 +1,7 @@
 package kr.pe.whatsmap.domain;
 
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +10,9 @@ import javax.persistence.Id;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Builder
 @Entity
 public class Cctv {
 

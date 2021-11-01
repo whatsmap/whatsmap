@@ -7,6 +7,7 @@ public class ParkinglotDTO {
 
     private double latitude;
     private double longitude;
+
     private String oldAddress;
     private String newAddress;
     private int baseRate;
