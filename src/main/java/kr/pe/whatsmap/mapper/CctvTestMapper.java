@@ -16,12 +16,12 @@ public interface CctvTestMapper extends GenericMapper<CctvTestDTO, Cctv>{
 //
 //
 //    Cctv dtoToMember(CctvDTO cctvDTO);
-    @Mapping(target="keepDay", ignore=true)
-    @Mapping(target="oldAddress", ignore=true)
-    @Mapping(target="newAddress", ignore=true)
-    @Mapping(target="count", ignore=true)
-    @Mapping(target="mngName", ignore=true)
-    @Mapping(target="mngPhone", ignore=true)
-    CctvTestDTO.CctvMap CMtoDto(Cctv cctv);
+//    @Mapping(target="keepDay", ignore=true)
+//    @Mapping(target="oldAddress", ignore=true)
+//    @Mapping(target="newAddress", ignore=true)
+//    @Mapping(target="count", ignore=true)
+//    @Mapping(target="mngName", ignore=true)
+//    @Mapping(target="mngPhone", ignore=true)
+//    CctvTestDTO.CctvMap CMtoDto(Cctv cctv);
 
 }
