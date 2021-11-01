@@ -6,7 +6,7 @@ import kr.pe.whatsmap.dto.WifiDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-10-31T22:25:59+0900",
+    date = "2021-11-01T04:11:17+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_201 (Oracle Corporation)"
 )
 public class WifiMapperImpl implements WifiMapper {
