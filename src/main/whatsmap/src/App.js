@@ -1,7 +1,7 @@
 import './App.css';
 import React, { Component } from "react";
 
-import Map from 'Map.js'
+// import Map from 'Map.js'
 
 
 class App extends Component{
@@ -9,8 +9,9 @@ class App extends Component{
     return (
       <div className="App">
         <p>TEST1app</p>
-        TEST2app
-        <Map>TEST3app</Map>
+TEST2app test3
+aaaaaa
+        {/* <Map>TEST3app</Map> */}
   
       </div>
 
