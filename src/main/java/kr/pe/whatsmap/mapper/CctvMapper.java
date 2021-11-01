@@ -5,6 +5,6 @@ import kr.pe.whatsmap.dto.CctvDTO;
 import org.mapstruct.Mapper;
 
 @Mapper
-public interface CctvMapper {
+public interface CctvMapper extends GenericMapper<CctvDTO, Cctv> {
     CctvDTO of(Cctv entity);
 }
