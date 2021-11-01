@@ -1,25 +1,24 @@
 import './App.css';
-import React, { Component } from "react";
-
-// import Map from 'Map.js'
-
+import React, { Component } from 'react';
+import Landing from './Landing.js'
 
 class App extends Component{
-  render(){
-    return (
-      <div className="App">
-        <p>TEST1app</p>
-TEST2app test3
-aaaaaa
-        {/* <Map>TEST3app</Map> */}
-  
-      </div>
+  constructor(props){
+    super(props);
+    this.state = {
+      start_map:true,
+      show:true
+    };
+  }
 
-    );
+  render(){
+      return(
+      <div className="App">
+
+        <Landing></Landing>
+      </div>
+      );
   }
 }
-
-
-
 
 export default App;
