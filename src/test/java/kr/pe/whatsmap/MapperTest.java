@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CctvTest {
+public class MapperTest {
 
 //    @Test
 //    public void dtoToEntity() {
