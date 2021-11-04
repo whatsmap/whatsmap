@@ -9,7 +9,8 @@ import javax.persistence.Id;
 
 @Setter
 @Getter
-@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Cctv {
 

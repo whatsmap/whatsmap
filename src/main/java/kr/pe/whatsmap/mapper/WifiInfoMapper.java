@@ -4,7 +4,6 @@ import kr.pe.whatsmap.domain.Wifi;
 import kr.pe.whatsmap.dto.WifiDTO;
 import org.mapstruct.Mapper;
 
-@Mapper
-public interface WifiMapper {
-    WifiDTO of(Wifi entity);
+@Mapper(componentModel = "spring")
+public interface WifiInfoMapper extends GenericMapper<WifiDTO.WifiInfo, Wifi>{
 }
