@@ -1,13 +1,18 @@
 /*global kakao*/
-import React, { useEffect } from 'react';
+import React, { Component, useEffect } from 'react';
 
 import './Map.css'
 
 // const { kakao } = window; // 뭐지??
 
-const Map = () => {
+const Map = (props) => {
+
+  
 
   useEffect(() => {
+    const filters = props.filters; //Landing.js에서 받아온 filters 데이터들 -> 마커들 렌더링 바꿀 때 체크하면서 사용 
+
+
     var container = document.getElementById('map'); // 지도를 표시할 div
     var options = {
       center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
