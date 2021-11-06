@@ -2,12 +2,15 @@ import React, {Component} from "react";
 
 import './Landing.css';
 import Map from './Map.js'
+import Sidebar from './Sidebar.js'
 
 class Landing extends Component{
     constructor(props){
         super(props);
-        this.state = {start_map: true};
-        this.onStartMap = this.onStartMap.bind(this);
+        this.state = {
+            start_map: true,
+            window_data: "Hello World!"
+        };
     }
 
     onStartMap() {
@@ -30,7 +33,9 @@ class Landing extends Component{
         else{
             return(
                 <div>
-                    <Map></Map>
+                    <div id="info-window">{this.state.window_data}</div>
+                    <Sidebar />
+                    <Map />
                 </div>
             );
         }
