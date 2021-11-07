@@ -2,6 +2,10 @@ package kr.pe.whatsmap.dto;
 
 import lombok.Data;
 
+<<<<<<< HEAD
+@Data
+=======
+>>>>>>> 31ce0649b3cd2325c58c17f26a21b417363b2fdb
 public class ResponseDTO {
 
     @Data
