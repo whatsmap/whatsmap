@@ -13,4 +13,5 @@ public class WifiDTO {
     private String placeDetail;
     private String mngName;
     private String mngPhone;
+
 }

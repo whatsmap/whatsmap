@@ -9,8 +9,6 @@ place_detail VARCHAR2(100),
 mng_name VARCHAR2(100),
 mng_phone VARCHAR2(100));
 
-
-
 INSERT INTO wifi (latitude, longitude, old_address, new_address, place, place_detail, mng_name, mng_phone)
 VALUES ('37.481974', '127.057478', '서울특별시 강남구 개포동 660-7', '서울특별시 강남구 개포로 310-17', '개포1동주민센터', '2층', '서울특별시 강남구청', '02-3423-5342');
 

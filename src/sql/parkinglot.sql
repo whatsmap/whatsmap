@@ -18,8 +18,6 @@ s_end VARCHAR2(100),
 h_start VARCHAR2(100),
 h_end VARCHAR2(100));
 
-
-
 INSERT INTO parkinglot (latitude, longitude, old_address, new_address, base_rate, extra_fee, name, fee_info, base_time, extra_time, type, d_start, d_end, s_start, s_end, h_start, h_end)
 VALUES (37.527308, 127.028324, '서울특별시 강남구 압구정동 435', '서울특별시 강남구 압구정동 435', 100, NULL, '동호대교(남)', '혼합', 5, NULL, '노상', '9:00', '19:00', '9:00', '19:00', '0:00', '0:00');
 
