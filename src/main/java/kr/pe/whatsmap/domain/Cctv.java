@@ -14,14 +14,13 @@ import javax.persistence.Id;
 @Entity
 public class Cctv {
 
+//    private Long idx;
     @Id
-    private Long idx;
+    @NotNull
+    private Double latitude;
 
     @NotNull
-    private double latitude;
-
-    @NotNull
-    private double longitude;
+    private Double longitude;
 
     @NotNull
     @Column(name = "keep_day")
