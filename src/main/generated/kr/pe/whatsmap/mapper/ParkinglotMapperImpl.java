@@ -7,7 +7,7 @@ import kr.pe.whatsmap.dto.ResponseDTO.ParkinglotMap;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-11-03T23:43:23+0900",
+    date = "2021-11-04T20:37:18+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_201 (Oracle Corporation)"
 )
 public class ParkinglotMapperImpl implements ParkinglotMapper {
