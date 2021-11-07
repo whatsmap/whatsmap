@@ -15,7 +15,7 @@ class Map extends Component {
 
     cctvImgSrc: "images/cctv.png",
     wifiImgSrc: "images/wifi.png",
-    ParkingLotImgSrc: "images/parking.png",
+    ParkingLotImgSrc: "images/parking.png"
   }
   
   componentDidMount() {
@@ -77,7 +77,7 @@ class Map extends Component {
     var wifiMarkers = [];
     var parkingLotMarkers = [];
 
-    for (var i = 0; i < positions.length; i++) {
+    for(var i = 0; i < positions.length; i++) {
 
       // 마커 이미지의 이미지 크기 입니다
       var imageSize = new kakao.maps.Size(50, 50);
@@ -131,7 +131,7 @@ class Map extends Component {
 
     function createCctvMarkers() {
 //        var image = this.state.cctvImgSrc;
-        for (var i = 0; i < cctvPositions.length; i++) {
+        for(var i = 0; i < cctvPositions.length; i++) {
 
             var imageSize = new kakao.maps.Size(50, 50),
                 imageOptions = {
@@ -150,14 +150,14 @@ class Map extends Component {
 
     // 커피숍 마커들의 지도 표시 여부를 설정하는 함수입니다
     function setCctvMarkers(map) {
-        for (var i = 0; i < cctvMarkers.length; i++) {
+        for(var i = 0; i < cctvMarkers.length; i++) {
             cctvMarkers[i].setMap(map);
         }
     }
 
     // 편의점 마커를 생성하고 편의점 마커 배열에 추가하는 함수입니다
     function createWifiMarkers() {
-        for (var i = 0; i < wifiPositions.length; i++) {
+        for(var i = 0; i < wifiPositions.length; i++) {
 
             var imageSize = new kakao.maps.Size(50, 50),
                 imageOptions = {
@@ -176,14 +176,14 @@ class Map extends Component {
 
     // 편의점 마커들의 지도 표시 여부를 설정하는 함수입니다
     function setWifiMarkers(map) {
-        for (var i = 0; i < wifiMarkers.length; i++) {
+        for(var i = 0; i < wifiMarkers.length; i++) {
             wifiMarkers[i].setMap(map);
         }
     }
 
     // 주차장 마커를 생성하고 주차장 마커 배열에 추가하는 함수입니다
     function createParkingLotMarkers() {
-        for (var i = 0; i < parkingLotPositions.length; i++) {
+        for(var i = 0; i < parkingLotPositions.length; i++) {
 
             var imageSize = new kakao.maps.Size(50, 50),
                 imageOptions = {
@@ -202,20 +202,20 @@ class Map extends Component {
 
     // 주차장 마커들의 지도 표시 여부를 설정하는 함수입니다
     function setParkingLotMarkers(map) {
-        for (var i = 0; i < parkingLotMarkers.length; i++) {
+        for(var i = 0; i < parkingLotMarkers.length; i++) {
             parkingLotMarkers[i].setMap(map);
         }
     }
 
     // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
-    function changeMarker(type){
+    function changeMarker(type) {
 
         var cctvMenu = document.getElementById('cctvMenu');
         var wifiMenu = document.getElementById('wifiMenu');
         var parkingLotMenu = document.getElementById('parkingLotMenu');
 
         // 커피숍 카테고리가 클릭됐을 때
-        if (type === 'cctv') {
+        if(type === 'cctv') {
 
             // 커피숍 카테고리를 선택된 스타일로 변경하고
             cctvMenu.className = 'menu_selected';
@@ -229,7 +229,7 @@ class Map extends Component {
             setWifiMarkers(null);
             setParkingLotMarkers(null);
 
-        } else if (type === 'wifi') { // 편의점 카테고리가 클릭됐을 때
+        } else if(type === 'wifi') { // 편의점 카테고리가 클릭됐을 때
 
             // 편의점 카테고리를 선택된 스타일로 변경하고
             cctvMenu.className = '';
@@ -241,7 +241,7 @@ class Map extends Component {
             setWifiMarkers(map);
             setParkingLotMarkers(null);
 
-        } else if (type === 'parkingLot') { // 주차장 카테고리가 클릭됐을 때
+        } else if(type === 'parkingLot') { // 주차장 카테고리가 클릭됐을 때
 
             // 주차장 카테고리를 선택된 스타일로 변경하고
             cctvMenu.className = '';
@@ -265,6 +265,11 @@ class Map extends Component {
 //    wifiMarker.setMap(map);
 //    parkingLotMarker.setMap(map);
 
+
+//    function getCctvInfo() {
+//        var data = 'Hello';
+//        return data;
+//    }
 
     // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
     // var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -290,25 +295,26 @@ class Map extends Component {
           // 마커 위에 인포윈도우를 표시합니다
           infowindow.open(map, parkingLotMarker);
     });
-    }
+}
 
   render(){
         return (
           <div id="mapwrap">
             <div id="map" className="draw-map"></div>
             <div id="info-window">{this.state.window_data}</div>
-            <div class="category">
+//            <div id="info-window">{this.getCctvInfo}</div>
+            <div className="category">
                     <ul>
-                        <li id="cctvMenu" onclick="changeMarker('cctv')">
-                            <span class="ico_comm ico_coffee"></span>
+                        <li id="cctvMenu" onClick="changeMarker('cctv')">
+                            <span className="ico_comm ico_coffee"></span>
                             CCTV
                         </li>
-                        <li id="wifiMenu" onclick="changeMarker('wifi')">
-                            <span class="ico_comm ico_store"></span>
+                        <li id="wifiMenu" onClick="changeMarker('wifi')">
+                            <span className="ico_comm ico_store"></span>
                             WIFI
                         </li>
-                        <li id="parkingLotMenu" onclick="changeMarker('parkingLot')">
-                            <span class="ico_comm ico_carpark"></span>
+                        <li id="parkingLotMenu" onClick="changeMarker('parkingLot')">
+                            <span className="ico_comm ico_carpark"></span>
                             ParkingLot
                         </li>
                     </ul>
@@ -318,8 +324,4 @@ class Map extends Component {
       }
 }
 
-
 export default Map;
-
-
-
