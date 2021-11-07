@@ -1,14 +1,14 @@
 import React, {Component} from "react";
 
-import './Landing.css';
-import Map from './Map.js'
+import './css/Landing.css';
+import Map from './Map.js';
+import Sidebar from './Sidebar.js';
 
 class Landing extends Component{
-    constructor(props){
-        super(props);
-        this.state = {start_map: true};
-        this.onStartMap = this.onStartMap.bind(this);
-    }
+    state = {
+        start_map: true,
+        filters: []
+    } 
 
     onStartMap() {
         this.setState(state => ({
@@ -16,27 +16,37 @@ class Landing extends Component{
         }));
     }
 
+    setFilters = (data) => {
+        console.log(data);
+        if(this.state.filters.includes(data)){
+            this.state.filters.pop(data);
+        }
+        else{
+            this.state.filters.push(data);
+        }
+        console.log(this.state.filters);
+    }
+
     render(){
         if(this.state.start_map){
             return(
                 <div className="Landing">
                     <h3>랜딩페이지</h3>
-                    <button onClick={function(){
-                        this.onStartMap()
-                    }.bind(this)}>버튼</button>
+                    <button onClick={function(){this.onStartMap()}.bind(this)}>
+                    버튼</button>
                 </div>
             );
         }
         else{
             return(
                 <div>
-                    <Map></Map>
+                    <Sidebar setFilters={this.setFilters} />
+                    <Map filters={this.state.filters}/>
                 </div>
             );
         }
     }
 }
-
 
 
 

@@ -1,96 +1,125 @@
 /*global kakao*/
-import React, { useEffect } from 'react';
+import React, { Component } from 'react';
 
-// const { kakao } = window; // 뭐지??
+import './css/Map.css';
 
-const Map = () => {
 
-  useEffect(() => {
+class Map extends Component {
+
+  state = {
+    window_data: "Hello World!",
+
+    cctv: [37.46855, 127.12096],
+    wifi: ['37.481974', '127.057478'],
+    parkinglot: [37.527308, 127.028324],
+
+    cctvImgSrc: "images/cctv.png",
+    wifiImgSrc: "images/wifi.png",
+    ParkingLotImgSrc: "images/parking.png",
+  }
+  
+  componentDidMount() {
+    const positions = [
+      {
+          title: 'CCTV',
+          latlng: new kakao.maps.LatLng(this.state.cctv[0], this.state.cctv[1])
+      },
+      {
+          title: 'WIFI',
+          latlng: new kakao.maps.LatLng(this.state.wifi[0], this.state.wifi[1])
+      },
+      {
+          title: 'ParkingLot',
+          latlng: new kakao.maps.LatLng(this.state.parkinglot[0], this.state.parkinglot[1])
+      }
+    ]
+
     var container = document.getElementById('map'); // 지도를 표시할 div
     var options = {
-      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(this.state.wifi[0], this.state.wifi[1]), // 지도의 중심좌표
       level: 3 // 지도의 확대 레벨
     };
     var map = new kakao.maps.Map(container, options); // 지도를 생성합니다
 
-    // 마커를 표시할 위치와 title 객체 배열입니다 
-    var positions = [
-      {
-          title: '카카오', 
-          latlng: new kakao.maps.LatLng(33.450705, 126.570677)
-      },
-      {
-          title: '생태연못', 
-          latlng: new kakao.maps.LatLng(33.450936, 126.569477)
-      },
-      {
-          title: '텃밭', 
-          latlng: new kakao.maps.LatLng(33.450879, 126.569940)
-      },
-      {
-          title: '근린공원',
-          latlng: new kakao.maps.LatLng(33.451393, 126.570738)
-      }
-    ];
 
-    // 마커 이미지의 이미지 주소입니다
-    var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+    for (var i = 0; i < positions.length; i++) {
 
-    for (var i = 0; i < positions.length; i ++) {
-    
       // 마커 이미지의 이미지 크기 입니다
-      var imageSize = new kakao.maps.Size(24, 35); 
+      var imageSize = new kakao.maps.Size(50, 50);
       
       // 마커 이미지를 생성합니다    
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-      
+      var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, imageSize);
+      var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, imageSize);
+      var parkingLotImg = new kakao.maps.MarkerImage(this.state.ParkingLotImgSrc, imageSize);
+
       // 마커를 생성합니다
-      var marker = new kakao.maps.Marker({
+      var cctvMarker = new kakao.maps.Marker({
           map: map, // 마커를 표시할 지도
-          position: positions[i].latlng, // 마커를 표시할 위치
-          title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-          image : markerImage, // 마커 이미지
+          position: positions[0].latlng, // 마커를 표시할 위치
+          title : positions[0].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          image : cctvImg, // 마커 이미지
           clickable: true 
       });
-      
+
+      var wifiMarker = new kakao.maps.Marker({
+          map: map, // 마커를 표시할 지도
+          position: positions[1].latlng, // 마커를 표시할 위치
+          title : positions[1].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          image : wifiImg, // 마커 이미지
+          clickable: true
+      });
+
+      var parkingLotMarker = new kakao.maps.Marker({
+          map: map, // 마커를 표시할 지도
+          position: positions[2].latlng, // 마커를 표시할 위치
+          title : positions[2].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          image : parkingLotImg, // 마커 이미지
+          clickable: true
+      });
+
     }
     // 마커를 지도에 표시합니다.
-    marker.setMap(map);
+    cctvMarker.setMap(map);
+    wifiMarker.setMap(map);
+    parkingLotMarker.setMap(map);
+
 
     // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-    var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    // var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    var iwContent = document.getElementById("info-window"), // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
         iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
     // 인포윈도우를 생성합니다
     var infowindow = new kakao.maps.InfoWindow({
-        content : iwContent,
-        removable : iwRemoveable
+      content: iwContent,
+      removable : iwRemoveable
     });
 
     // 마커에 클릭이벤트를 등록합니다
-    kakao.maps.event.addListener(marker, 'click', function() {
+    kakao.maps.event.addListener(cctvMarker, 'click', function() {
           // 마커 위에 인포윈도우를 표시합니다
-          infowindow.open(map, marker);  
+          infowindow.open(map, cctvMarker);
+    });
+    kakao.maps.event.addListener(wifiMarker, 'click', function() {
+          // 마커 위에 인포윈도우를 표시합니다
+          infowindow.open(map, wifiMarker);
+    });
+    kakao.maps.event.addListener(parkingLotMarker, 'click', function() {
+          // 마커 위에 인포윈도우를 표시합니다
+          infowindow.open(map, parkingLotMarker);
     });
 
-
-  });
-
-  //  var markerPosition  = new kakao.maps.LatLng(37.365264512305174, 127.10676860117488);
-  //  var marker = new kakao.maps.Marker({
-  //    position: markerPosition
-  //  });
-  //  marker.setMap(map);
-
-  //  }, []);
-
-
-    return (
-      <div>
-        <div id="map" style={{width:"1000px", height:"800px"}}></div>
-      </div>
-    );
+  }
+  render(){
+        return (
+          <div>
+            <div id="map" className="draw-map"></div>
+            <div id="info-window">{this.state.window_data}</div>
+          </div>
+        )
+      }
 }
+
 
 export default Map;
 
