@@ -6,18 +6,22 @@ import './css/Map.css';
 
 class Map extends Component {
 
-  state = {
-    window_data: "Hello World!",
+  constructor(props) {
+    super(props);
+    this.state = {
+      cctvs: props.cctvs,
+      window_data: "Hello World!",
 
-    cctv: [37.46855, 127.12096],
-    wifi: ['37.481974', '127.057478'],
-    parkinglot: [37.527308, 127.028324],
+      cctv: [37.46855, 127.12096],
+      wifi: ['37.481974', '127.057478'],
+      parkinglot: [37.527308, 127.028324],
 
-    cctvImgSrc: "images/cctv.png",
-    wifiImgSrc: "images/wifi.png",
-    ParkingLotImgSrc: "images/parking.png",
+      cctvImgSrc: "images/cctv.png",
+      wifiImgSrc: "images/wifi.png",
+      ParkingLotImgSrc: "images/parking.png",
+    }
   }
-  
+
   componentDidMount() {
     const positions = [
       {

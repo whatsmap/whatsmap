@@ -5,10 +5,18 @@ import Map from './Map.js';
 import Sidebar from './Sidebar.js';
 
 class Landing extends Component{
-    state = {
-        start_map: true,
-        filters: []
-    } 
+    constructor(props){
+        super(props);
+        this.state = {
+            start_map: true,
+            filters: [],
+            cctvs: props.cctvs
+        }
+    }
+    // state = {
+    //     start_map: true,
+    //     filters: []
+    // } 
 
     onStartMap() {
         this.setState(state => ({
@@ -41,7 +49,7 @@ class Landing extends Component{
             return(
                 <div>
                     <Sidebar setFilters={this.setFilters} />
-                    <Map filters={this.state.filters}/>
+                    <Map cctvs={this.state.cctvs} filters={this.state.filters}/>
                 </div>
             );
         }
