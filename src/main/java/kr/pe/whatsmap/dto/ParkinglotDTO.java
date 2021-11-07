@@ -21,4 +21,5 @@ public class ParkinglotDTO {
     private String sEnd;
     private String hStart;
     private String hEnd;
+
 }

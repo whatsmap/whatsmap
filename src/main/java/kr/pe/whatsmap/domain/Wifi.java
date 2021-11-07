@@ -37,13 +37,16 @@ public class Wifi {
     @NotNull
     private String place;
 
+    @NotNull
     @Column(name = "place_detail")
     private String placeDetail;
 
     @NotNull
+    @Column(name = "mng_name")
     private String mngName;
 
     @NotNull
+    @Column(name = "mng_phone")
     private String mngPhone;
 
 }

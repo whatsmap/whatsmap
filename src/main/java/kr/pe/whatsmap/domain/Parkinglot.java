@@ -47,6 +47,9 @@ public class Parkinglot {
     private String feeInfo;
 
     @NotNull
+    @Column(name = "base_time")
+    private String baseTime;
+
     @Column(name = "extra_time")
     private String extraTime;
 

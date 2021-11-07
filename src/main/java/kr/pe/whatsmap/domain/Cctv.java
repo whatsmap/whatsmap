@@ -24,6 +24,7 @@ public class Cctv {
     @NotNull
     private double longitude;
 
+    @NotNull
     @Column(name = "keep_day")
     private int keepDay;
 
@@ -38,9 +39,11 @@ public class Cctv {
     @NotNull
     private int count;
 
+    @NotNull
     @Column(name = "mng_name")
     private String mngName;
 
+    @NotNull
     @Column(name = "mng_phone")
     private String mngPhone;
 

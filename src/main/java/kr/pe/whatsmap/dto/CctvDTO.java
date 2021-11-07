@@ -7,6 +7,7 @@ public class CctvDTO {
 
     private double latitude;
     private double longitude;
+
     private int keepDay;
     private String oldAddress;
     private String newAddress;
