@@ -6,7 +6,7 @@ import kr.pe.whatsmap.dto.CctvDTO;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-11-01T04:11:18+0900",
+    date = "2021-11-04T20:37:18+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_201 (Oracle Corporation)"
 )
 public class CctvMapperImpl implements CctvMapper {
