@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 
-import './Sidebar.css';
+import './css/Sidebar.css';
 
 class Sidebar extends Component{
     state = {
-        datas: ["공공화장실", "방범용cctv", "경찰서위치", "와이파이", "불법 주정차", "어린이 보호구역"],
+        datas: ["방범용cctv","와이파이", "주차장"],
     }
 
     filter = (data) => {

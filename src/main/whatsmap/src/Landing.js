@@ -1,13 +1,12 @@
 import React, {Component} from "react";
 
-import './Landing.css';
-import Map from './Map.js'
-import Sidebar from './Sidebar.js'
+import './css/Landing.css';
+import Map from './Map.js';
+import Sidebar from './Sidebar.js';
 
 class Landing extends Component{
     state = {
         start_map: true,
-        window_data: "Hello World!",
         filters: []
     } 
 
@@ -41,9 +40,6 @@ class Landing extends Component{
         else{
             return(
                 <div>
-                    <template>
-                        <div id="info-window">{this.state.window_data}</div>
-                    </template>
                     <Sidebar setFilters={this.setFilters} />
                     <Map filters={this.state.filters}/>
                 </div>
@@ -51,7 +47,6 @@ class Landing extends Component{
         }
     }
 }
-
 
 
 

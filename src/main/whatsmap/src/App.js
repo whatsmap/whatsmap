@@ -1,4 +1,4 @@
-import './App.css';
+import './css/App.css';
 import React, { Component } from 'react';
 import Landing from './Landing.js'
 
@@ -12,6 +12,8 @@ class App extends Component{
       );
   }
 }
+
+
 
 export default App;
 
