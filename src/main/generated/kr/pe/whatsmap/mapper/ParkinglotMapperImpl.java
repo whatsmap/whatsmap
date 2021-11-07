@@ -2,40 +2,55 @@ package kr.pe.whatsmap.mapper;
 
 import javax.annotation.Generated;
 import kr.pe.whatsmap.domain.Parkinglot;
-import kr.pe.whatsmap.dto.ParkinglotDTO;
+import kr.pe.whatsmap.dto.ResponseDTO.ParkinglotInfo;
+import kr.pe.whatsmap.dto.ResponseDTO.ParkinglotMap;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-11-01T04:11:18+0900",
+    date = "2021-11-03T23:43:23+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_201 (Oracle Corporation)"
 )
 public class ParkinglotMapperImpl implements ParkinglotMapper {
 
     @Override
-    public ParkinglotDTO of(Parkinglot entity) {
-        if ( entity == null ) {
+    public ParkinglotMap PMtoDto(Parkinglot parkinglot) {
+        if ( parkinglot == null ) {
             return null;
         }
 
-        ParkinglotDTO parkinglotDTO = new ParkinglotDTO();
+        ParkinglotMap parkinglotMap = new ParkinglotMap();
 
-        parkinglotDTO.setLatitude( entity.getLatitude() );
-        parkinglotDTO.setLongitude( entity.getLongitude() );
-        parkinglotDTO.setOldAddress( entity.getOldAddress() );
-        parkinglotDTO.setNewAddress( entity.getNewAddress() );
-        parkinglotDTO.setBaseRate( entity.getBaseRate() );
-        parkinglotDTO.setExtraFee( entity.getExtraFee() );
-        parkinglotDTO.setName( entity.getName() );
-        parkinglotDTO.setFeeInfo( entity.getFeeInfo() );
-        parkinglotDTO.setExtraTime( entity.getExtraTime() );
-        parkinglotDTO.setType( entity.getType() );
-        parkinglotDTO.setDStart( entity.getDStart() );
-        parkinglotDTO.setDEnd( entity.getDEnd() );
-        parkinglotDTO.setSStart( entity.getSStart() );
-        parkinglotDTO.setSEnd( entity.getSEnd() );
-        parkinglotDTO.setHStart( entity.getHStart() );
-        parkinglotDTO.setHEnd( entity.getHEnd() );
+        parkinglotMap.setIdx( parkinglot.getIdx() );
+        parkinglotMap.setLatitude( parkinglot.getLatitude() );
+        parkinglotMap.setLongitude( parkinglot.getLongitude() );
 
-        return parkinglotDTO;
+        return parkinglotMap;
+    }
+
+    @Override
+    public ParkinglotInfo PItoDto(Parkinglot parkinglot) {
+        if ( parkinglot == null ) {
+            return null;
+        }
+
+        ParkinglotInfo parkinglotInfo = new ParkinglotInfo();
+
+        parkinglotInfo.setIdx( parkinglot.getIdx() );
+        parkinglotInfo.setOldAddress( parkinglot.getOldAddress() );
+        parkinglotInfo.setNewAddress( parkinglot.getNewAddress() );
+        parkinglotInfo.setBaseRate( parkinglot.getBaseRate() );
+        parkinglotInfo.setExtraFee( parkinglot.getExtraFee() );
+        parkinglotInfo.setName( parkinglot.getName() );
+        parkinglotInfo.setFeeInfo( parkinglot.getFeeInfo() );
+        parkinglotInfo.setExtraTime( parkinglot.getExtraTime() );
+        parkinglotInfo.setType( parkinglot.getType() );
+        parkinglotInfo.setDStart( parkinglot.getDStart() );
+        parkinglotInfo.setDEnd( parkinglot.getDEnd() );
+        parkinglotInfo.setSStart( parkinglot.getSStart() );
+        parkinglotInfo.setSEnd( parkinglot.getSEnd() );
+        parkinglotInfo.setHStart( parkinglot.getHStart() );
+        parkinglotInfo.setHEnd( parkinglot.getHEnd() );
+
+        return parkinglotInfo;
     }
 }

@@ -9,8 +9,6 @@ count NUMBER(38),
 mng_name VARCHAR2(200),
 mng_phone VARCHAR2(100));
 
-
-
 INSERT INTO cctv (latitude, longitude, old_address, new_address, keep_day, count, mng_name, mng_phone)
 VALUES (37.46855, 127.12096, '서울특별시 강남구 율현동 116번지', '', 0, 1, '서울특별시 시청', '02-2100-5397');
 
