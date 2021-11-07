@@ -1,17 +1,14 @@
 /*global kakao*/
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import './Map.css'
+import './css/Map.css'
 
 // const { kakao } = window; // 뭐지??
 
+
 const Map = (props) => {
-
-  
-
   useEffect(() => {
     const filters = props.filters; //Landing.js에서 받아온 filters 데이터들 -> 마커들 렌더링 바꿀 때 체크하면서 사용 
-
 
     var container = document.getElementById('map'); // 지도를 표시할 div
     var options = {
@@ -41,7 +38,8 @@ const Map = (props) => {
     ];
 
     // 마커 이미지의 이미지 주소입니다
-    var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+    // var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+    var imageSrc = "images/test.png"; 
 
     for (var i = 0; i < positions.length; i ++) {
     
@@ -98,6 +96,8 @@ const Map = (props) => {
       </div>
     );
 }
+
+
 
 export default Map;
 

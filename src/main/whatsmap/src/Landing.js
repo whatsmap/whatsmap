@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 
-import './Landing.css';
-import Map from './Map.js'
-import Sidebar from './Sidebar.js'
+import './css/Landing.css';
+import Map from './Map.js';
+import Sidebar from './Sidebar.js';
 
 class Landing extends Component{
     state = {
@@ -51,7 +51,6 @@ class Landing extends Component{
         }
     }
 }
-
 
 
 
