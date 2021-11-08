@@ -123,35 +123,43 @@ class Map extends Component {
 
     // ====================================
 
-    // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-    // var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-    // var iwContent = document.getElementById("info-window"), // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-    //     iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
     // // 인포윈도우를 생성합니다
     // var infowindow = new kakao.maps.InfoWindow({
-    //   content: iwContent,
-    //   removable : iwRemoveable
+    //   content: document.getElementById("info-window"),
+    //   removable: true
     // });
 
-    // // 마커에 클릭이벤트를 등록합니다
-    // kakao.maps.event.addListener(cctvMarker, 'click', function() {
+
+    // kakao.maps.event.addListener(this.state.cctvMarker, 'click', function() {
     //       // 마커 위에 인포윈도우를 표시합니다
-    //       infowindow.open(map, cctvMarker);
+    //       infowindow.open(map, this.state.cctvMarker);
     // });
-    // kakao.maps.event.addListener(wifiMarker, 'click', function() {
+    // kakao.maps.event.addListener(this.state.wifiMarker, 'click', function() {
     //       // 마커 위에 인포윈도우를 표시합니다
-    //       infowindow.open(map, wifiMarker);
+    //       infowindow.open(map, this.state.wifiMarker);
     // });
-    // kakao.maps.event.addListener(parkingLotMarker, 'click', function() {
+    // kakao.maps.event.addListener(this.state.parkingLotMarker, 'click', function() {
     //       // 마커 위에 인포윈도우를 표시합니다
-    //       infowindow.open(map, parkingLotMarker);
+    //       infowindow.open(map, this.state.parkingLotMarker);
     // });
+
+
+    function createinfowindow() {    
+      for (var i = 0; i < cctvPositions.length; i++) {
+        var infowindow = new kakao.maps.InfoWindow({
+          map: map, 
+          position : cctvPositions[i], 
+          content : document.getElementById('info-window'),
+          removable : true
+        });
+      }
+    }
+
 
     createCctvMarkers();
     createWifiMarkers();
     createParkingLotMarkers();
-
+    createinfowindow()
   }
   // ====================== state 정보가 바뀔 때마다 실행됨 ====================================
   componentDidUpdate() {
@@ -259,7 +267,6 @@ class Map extends Component {
       }
     }
 
-// change할 때마다 setCctvMarkers에서 null처리를 하므로 create로 마커들을 계속 다시 그려줘야 하는 것 같습니다
     createCctvMarkers();
     createWifiMarkers();
     createParkingLotMarkers();
@@ -272,6 +279,8 @@ class Map extends Component {
         <div id="map" className="draw-map"></div>
         <div id="info-window">{this.state.window_data}</div>
         <div id="info-window">{this.getCctvInfo}</div>
+
+        {/* <ChangeMarker /> */}
         <div className="category">
           <ul>
             <li
@@ -307,5 +316,6 @@ class Map extends Component {
     );
   }
 }
+
 
 export default Map;
