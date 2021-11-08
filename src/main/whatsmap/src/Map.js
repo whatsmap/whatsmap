@@ -77,12 +77,22 @@ class Map extends Component {
     var wifiMarkers = this.state.wifiMarkers;
     var parkingLotMarkers = this.state.parkingLotMarkers;
 
+    // 기존에 있던 코드들 주석 처리 
     function createCctvMarkers() {    
       for (var i = 0; i < cctvPositions.length; i++) {
+        // var imageOptions = {
+        //         spriteOrigin: new kakao.maps.Point(10, 0),  =====> sprite 적용하는 부분을 못찾아서 사용안함
+        //         spriteSize: new kakao.maps.Size(36, 98)
+        //     };
+
+        // var markerImage = createMarkerImage(cctvImg, imageSize, imageOptions);
+        // var markerImage = new kakao.maps.MarkerImage(cctvImg, imageSize, imageOptions);
+
         var marker = new kakao.maps.Marker({
           position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
           image: cctvImg,
-          clickable: true
+          title: 'CCTV'
+
         });
         cctvMarkers.push(marker);
       }
@@ -112,11 +122,6 @@ class Map extends Component {
       }
     }
 
-    // ====================================
-
-
-
-
     // });
 
 
@@ -130,7 +135,6 @@ class Map extends Component {
         });
       }
     }
-
 
     createCctvMarkers();
     createWifiMarkers();
@@ -210,7 +214,6 @@ class Map extends Component {
       }
     }
     // ====================================
-
     function changeMarker() {
       var cctvMenu = document.getElementById("cctvMenu");
       var wifiMenu = document.getElementById("wifiMenu");
@@ -247,16 +250,51 @@ class Map extends Component {
     createWifiMarkers();
     createParkingLotMarkers();
     changeMarker();
-  }
+
+    // ===================================
+    //마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+      var iwContent = document.getElementById("info-window"); // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+      var iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+      // 인포윈도우를 생성합니다
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable : iwRemoveable
+      });
+
+       // 마커에 클릭이벤트를 등록합니다
+    //   (this.cctvMarker, 'click', function() {
+    //         // 마커 위에 인포윈도우를 표시합니다
+    //         infowindow.open(map, this.cctvMarker);
+    //   });
+    for(let i=0; i<cctvMarkers.length; i++) {
+      kakao.maps.event.addListener(cctvMarkers[i], 'click', function() {
+        // 마커 위에 인포윈도우를 표시합니다
+        infowindow.open(map, cctvMarkers[i]);
+      });
+    }
+    
+    for(let i=0; i<wifiMarkers.length; i++) {
+      kakao.maps.event.addListener(wifiMarkers[i], 'click', function() {
+        // 마커 위에 인포윈도우를 표시합니다
+        infowindow.open(map, wifiMarkers[i]);
+      });
+    }
+
+    for(let i=0; i<parkingLotMarkers.length; i++) {
+      kakao.maps.event.addListener(parkingLotMarkers[i], 'click', function() {
+        // 마커 위에 인포윈도우를 표시합니다
+        infowindow.open(map, parkingLotMarkers[i]);
+      });
+    }
+
+ }
 
   render() {
     return (
       <div id="mapwrap">
         <div id="map" className="draw-map"></div>
         <div id="info-window">{this.state.window_data}</div>
-        <div id="info-window">{this.getCctvInfo}</div>
-
-        {/* <ChangeMarker /> */}
         <div className="category">
           <ul>
             <li
