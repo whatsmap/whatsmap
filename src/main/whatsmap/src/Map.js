@@ -15,14 +15,12 @@ class Map extends Component {
     wifiImgSrc: "images/wifi.png",
     ParkingLotImgSrc: "images/parking.png",
 
-// render-onclick함수에서 type을 직접 변경 -> changeMarker()에서 변경된 type 사용 
     type: "cctv",
 
     cctvMarkers: [],
     wifiMarkers: [],
     parkingLotMarkers: [],
 
-    // ========= 지원님이 통신방법 개발해주시면 적용해서 DB리스트 가져오기 적용 필요 =====
     cctvPositions: [
       new kakao.maps.LatLng(37.499590490909185, 127.0263723554437),
       new kakao.maps.LatLng(37.499427948430814, 127.02794423197847),
@@ -52,29 +50,31 @@ class Map extends Component {
       new kakao.maps.LatLng(37.49813096097184, 127.02591949495914),
       new kakao.maps.LatLng(37.497680616783086, 127.02518427952202),
     ],
+
+    imageSize: new kakao.maps.Size(50, 50),
+
   };
+
+  setCctvMarkers(map) {
+    for (var i = 0; i < this.state.cctvMarkers.length; i++) {
+      this.state.cctvMarkers[i].setMap(map);
+    }
+  }
+
 // ===================================================================
   componentDidMount() {
-    var imageSize = new kakao.maps.Size(50, 50);
+    var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, this.state.imageSize);
+    var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, this.state.imageSize);
+    var parkingLotImg = new kakao.maps.MarkerImage(this.state.ParkingLotImgSrc, this.state.imageSize);
 
-    var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, imageSize);
-    var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, imageSize);
-    var parkingLotImg = new kakao.maps.MarkerImage(
-      this.state.ParkingLotImgSrc,
-      imageSize
-    );
-
-    var container = document.getElementById("map"); // 지도를 표시할 div
+    var container = document.getElementById("map");
     var options = {
-      center: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437), // 지도의 중심좌표
-      level: 3, // 지도의 확대 레벨
+      center: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437), 
+      level: 3,
     };
 
-    var map = new kakao.maps.Map(container, options);  //첫 렌더링 때 지도 그리기
+    var map = new kakao.maps.Map(container, options);
 
-    // ====== this.state를 function에서 못가져오는 것을 해결한 방법입니다!======
-    // ====== 함수 밖에서 미리 변수로 선언하고 function으로 가져오기 
-            // - 주연님이 이미 사용한 방법이었나?======
     var cctvPositions = this.state.cctvPositions;
     var wifiPositions = this.state.wifiPositions;
     var parkingLotPositions = this.state.parkingLotPositions;
@@ -83,96 +83,24 @@ class Map extends Component {
     var wifiMarkers = this.state.wifiMarkers;
     var parkingLotMarkers = this.state.parkingLotMarkers;
 
-    // const positions = [
-    //   {
-    //       title: 'CCTV',
-    //       latlng: new kakao.maps.LatLng(this.state.cctv[0], this.state.cctv[1])
-    //   },
-    //   {
-    //       title: 'WIFI',
-    //       latlng: new kakao.maps.LatLng(this.state.wifi[0], this.state.wifi[1])
-    //   },
-    //   {
-    //       title: 'ParkingLot',
-    //       latlng: new kakao.maps.LatLng(this.state.parkinglot[0], this.state.parkinglot[1])
-    //   }
-    // ]
-
-    // for(var i = 0; i < positions.length; i++) {
-
-    //   // 마커 이미지의 이미지 크기 입니다
-
-    //   // 마커 이미지를 생성합니다
-
-    //   // 마커를 생성합니다
-    //   var cctvMarker = new kakao.maps.Marker({
-    //       map: map, // 마커를 표시할 지도
-    //       position: positions[0].latlng, // 마커를 표시할 위치
-    //       title : positions[0].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-    //       image : cctvImg, // 마커 이미지
-    //       clickable: true
-    //   });
-
-    //   var wifiMarker = new kakao.maps.Marker({
-    //       map: map, // 마커를 표시할 지도
-    //       position: positions[1].latlng, // 마커를 표시할 위치
-    //       title : positions[1].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-    //       image : wifiImg, // 마커 이미지
-    //       clickable: true
-    //   });
-
-    //   var parkingLotMarker = new kakao.maps.Marker({
-    //       map: map, // 마커를 표시할 지도
-    //       position: positions[2].latlng, // 마커를 표시할 위치
-    //       title : positions[2].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-    //       image : parkingLotImg, // 마커 이미지
-    //       clickable: true
-    //   });
-    // }
-
-    // //좌표와 마커이미지를 받아 마커를 생성하여 리턴하는 함수
-    // function createMarker(position, image) {
-    //     var marker = new kakao.maps.Marker({
-    //         position: position,
-    //         image: image
-    //     });
-
-    //     return marker;
-    // }
-
-    //   function createMarkerImage(src, size, options) {
-    //     var markerImage = new kakao.maps.MarkerImage(src, size, options);
-    //     return markerImage;
-    // }
-
-
-    // 기존에 있던 코드들 주석 처리 
     function createCctvMarkers() {    
-      //        var image = this.state.cctvImgSrc;
       for (var i = 0; i < cctvPositions.length; i++) {
-        // var imageOptions = {
-        //         spriteOrigin: new kakao.maps.Point(10, 0),  =====> sprite 적용하는 부분을 못찾아서 사용안함
-        //         spriteSize: new kakao.maps.Size(36, 98)
-        //     };
-
-        // var markerImage = createMarkerImage(cctvImg, imageSize, imageOptions);
-        // var markerImage = new kakao.maps.MarkerImage(cctvImg, imageSize, imageOptions);
-
-        // var marker = createMarker(cctvPositions[i], cctvImg);
         var marker = new kakao.maps.Marker({
           position: cctvPositions[i],
           image: cctvImg,
+          clickable: true
         });
         cctvMarkers.push(marker);
       }
     }
 
     // ====================================
-    function createWifiMarkers() {   // 위의 createCctvMarkers()와 같은 코드 - 주석 제거
+    function createWifiMarkers() {  
       for (var i = 0; i < wifiPositions.length; i++) {
         var marker = new kakao.maps.Marker({
           position: wifiPositions[i],
           image: wifiImg,
+          clickable: true
         });
         wifiMarkers.push(marker);
       }
@@ -184,23 +112,13 @@ class Map extends Component {
         var marker = new kakao.maps.Marker({
           position: parkingLotPositions[i],
           image: parkingLotImg,
+          clickable: true
         });
         parkingLotMarkers.push(marker);
       }
     }
 
     // ====================================
-
-
-    // 마커를 지도에 표시합니다.
-    //    cctvMarker.setMap(map);
-    //    wifiMarker.setMap(map);
-    //    parkingLotMarker.setMap(map);
-
-    //    function getCctvInfo() {
-    //        var data = 'Hello';
-    //        return data;
-    //    }
 
     // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
     // var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -234,20 +152,11 @@ class Map extends Component {
   }
   // ====================== state 정보가 바뀔 때마다 실행됨 ====================================
   componentDidUpdate() {
-    var getState = this.state.type;
+    var get_type = this.state.type;
 
-    var imageSize = new kakao.maps.Size(50, 50);
-
-    var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, imageSize);
-    var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, imageSize);
-    var parkingLotImg = new kakao.maps.MarkerImage(
-      this.state.ParkingLotImgSrc,
-      imageSize
-    );
-
-    var cctvMarkers = [];
-    var wifiMarkers = [];
-    var parkingLotMarkers = [];
+    var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, this.state.imageSize);
+    var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, this.state.imageSize);
+    var parkingLotImg = new kakao.maps.MarkerImage(this.state.ParkingLotImgSrc, this.state.imageSize);
 
     var container = document.getElementById("map");
     var options = {
@@ -260,6 +169,10 @@ class Map extends Component {
     var cctvPositions = this.state.cctvPositions;
     var wifiPositions = this.state.wifiPositions;
     var parkingLotPositions = this.state.parkingLotPositions;
+
+    var cctvMarkers = this.state.cctvMarkers;
+    var wifiMarkers = this.state.wifiMarkers;
+    var parkingLotMarkers = this.state.parkingLotMarkers;
 
     // =================================================
     function createCctvMarkers() {
@@ -316,7 +229,7 @@ class Map extends Component {
       var wifiMenu = document.getElementById("wifiMenu");
       var parkingLotMenu = document.getElementById("parkingLotMenu");
 
-      if (getState === "cctv") {
+      if (get_type === "cctv") {
         cctvMenu.className = "menu_selected";
         wifiMenu.className = "";
         parkingLotMenu.className = "";
@@ -324,7 +237,7 @@ class Map extends Component {
         setCctvMarkers(map);
         setWifiMarkers(null);
         setParkingLotMarkers(null);
-      } else if (getState === "wifi") {
+      } else if (get_type === "wifi") {
         cctvMenu.className = "";
         wifiMenu.className = "menu_selected";
         parkingLotMenu.className = "";
@@ -332,7 +245,7 @@ class Map extends Component {
         setCctvMarkers(null);
         setWifiMarkers(map);
         setParkingLotMarkers(null);
-      } else if (getState === "parkingLot") {
+      } else if (get_type === "parkingLot") {
         cctvMenu.className = "";
         wifiMenu.className = "";
         parkingLotMenu.className = "menu_selected";

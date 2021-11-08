@@ -16,17 +16,6 @@ class Landing extends Component{
         }));
     }
 
-    setFilters = (data) => {
-        console.log(data);
-        if(this.state.filters.includes(data)){
-            this.state.filters.pop(data);
-        }
-        else{
-            this.state.filters.push(data);
-        }
-        console.log(this.state.filters);
-    }
-
     render(){
         if(this.state.start_map){
             return(
@@ -40,8 +29,8 @@ class Landing extends Component{
         else{
             return(
                 <div>
-                    <Sidebar setFilters={this.setFilters} />
-                    <Map filters={this.state.filters}/>
+                    <Sidebar />
+                    <Map />
                 </div>
             );
         }
