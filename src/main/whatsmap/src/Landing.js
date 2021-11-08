@@ -5,10 +5,39 @@ import Map from './Map.js';
 import Sidebar from './Sidebar.js';
 
 class Landing extends Component{
-    state = {
-        start_map: true,
-        filters: []
-    } 
+    constructor(props){
+        super(props);
+        this.state = {
+            start_map: true,
+            filters: [],
+            cctvs: []
+        }
+    }
+
+    componentDidMount() {
+        const requestOptions = {
+            method: "GET",
+            headers: { 
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        };
+        // latitude/37.46855
+        fetch("http://localhost:80/cctv/all", requestOptions)
+        .then((response) => response.json())
+        .then(
+            (response) => {
+            this.setState({
+                cctvs: response,
+            });
+            },
+            (error) => {
+            this.setState({
+                //error시 하고싶은거
+            });
+            }
+        );
+    }
 
     onStartMap() {
         this.setState(state => ({
@@ -29,8 +58,9 @@ class Landing extends Component{
         else{
             return(
                 <div>
-                    <Sidebar />
-                    <Map />
+                    <Sidebar setFilters={this.setFilters} />
+                    <Map cctvs={this.state.cctvs} filters={this.state.filters}/>
+
                 </div>
             );
         }
