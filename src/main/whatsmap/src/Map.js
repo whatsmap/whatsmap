@@ -146,7 +146,6 @@ class Map extends Component {
         });
       }
     }
-
     createCctvMarkers();
     createWifiMarkers();
     createParkingLotMarkers();
