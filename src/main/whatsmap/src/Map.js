@@ -10,7 +10,7 @@ class Map extends Component {
     this.state = {
       window_data: "Hello World!",
 
-      cctv: [37.46855, 127.12096],
+      cctv: [37.497535461505684, 127.02948149502778],
       wifi: ["37.481974", "127.057478"],
       parkinglot: [37.527308, 127.028324],
 
@@ -24,7 +24,17 @@ class Map extends Component {
       wifiMarkers: [],
       parkingLotMarkers: [],
 
-      cctvPositions: this.props.cctvs,
+      // cctvPositions: this.props.cctvs,
+
+      cctvPositions: [
+        new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
+        new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
+        new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
+        new kakao.maps.LatLng(37.49640072567703, 127.02726459882308),
+        new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
+        new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
+        new kakao.maps.LatLng(37.49996818951873, 127.02943721562295),
+      ],
 
       wifiPositions: [
         new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
@@ -89,7 +99,8 @@ class Map extends Component {
         // var markerImage = new kakao.maps.MarkerImage(cctvImg, imageSize, imageOptions);
 
         var marker = new kakao.maps.Marker({
-          position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
+          // position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
+          position: cctvPositions[i],
           image: cctvImg,
           title: 'CCTV'
 
