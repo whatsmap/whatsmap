@@ -9,7 +9,7 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cctvs: props.cctvs,
+      cctvs: this.props.cctvs,
       window_data: "Hello World!",
 
       cctv: [37.46855, 127.12096],
@@ -26,7 +26,7 @@ class Map extends Component {
     const positions = [
       {
           title: 'CCTV',
-          latlng: new kakao.maps.LatLng(this.state.cctv[0], this.state.cctv[1])
+          latlng: new kakao.maps.LatLng(this.state.cctvs[0].latitude, this.state.cctvs[0].longitude)
       },
       {
           title: 'WIFI',
@@ -40,7 +40,7 @@ class Map extends Component {
 
     var container = document.getElementById('map'); // 지도를 표시할 div
     var options = {
-      center: new kakao.maps.LatLng(this.state.wifi[0], this.state.wifi[1]), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(37.46855, 127.12096), // 지도의 중심좌표
       level: 3 // 지도의 확대 레벨
     };
     var map = new kakao.maps.Map(container, options); // 지도를 생성합니다
