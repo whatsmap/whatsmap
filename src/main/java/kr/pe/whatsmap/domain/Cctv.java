@@ -13,9 +13,9 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Entity
 public class Cctv {
-
-//    private Long idx;
     @Id
+    private Long idx;
+
     @NotNull
     private Double latitude;
 
@@ -35,6 +35,7 @@ public class Cctv {
     private String newAddress;
 
     @NotNull
+    @Column(name = "count_cctv")
     private int count;
 
     @NotNull
