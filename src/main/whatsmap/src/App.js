@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import Landing from './Landing.js'
 
 class App extends Component{
-  render(){          
+  render(){
       return(
       <div className="App">
 
+        {/* <Landing cctvs={this.props.cctvs}></Landing> */}
         <Landing></Landing>
       </div>
       );

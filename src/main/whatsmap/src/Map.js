@@ -4,77 +4,71 @@ import React, { Component } from "react";
 import "./css/Map.css";
 
 class Map extends Component {
-  state = {
-    window_data: "Hello World!",
 
-    cctv: [37.46855, 127.12096],
-    wifi: ["37.481974", "127.057478"],
-    parkinglot: [37.527308, 127.028324],
+  constructor(props) {
+    super(props);
+    this.state = {
+      window_data: "Hello World!",
 
-    cctvImgSrc: "images/cctv.png",
-    wifiImgSrc: "images/wifi.png",
-    ParkingLotImgSrc: "images/parking.png",
+      cctv: [37.46855, 127.12096],
+      wifi: ["37.481974", "127.057478"],
+      parkinglot: [37.527308, 127.028324],
 
-// render-onclick함수에서 type을 직접 변경 -> changeMarker()에서 변경된 type 사용 
-    type: "cctv",
+      cctvImgSrc: "images/cctv.png",
+      wifiImgSrc: "images/wifi.png",
+      ParkingLotImgSrc: "images/parking.png",
 
-    cctvMarkers: [],
-    wifiMarkers: [],
-    parkingLotMarkers: [],
+      type: "cctv",
 
-    // ========= 지원님이 통신방법 개발해주시면 적용해서 DB리스트 가져오기 적용 필요 =====
-    cctvPositions: [
-      new kakao.maps.LatLng(37.499590490909185, 127.0263723554437),
-      new kakao.maps.LatLng(37.499427948430814, 127.02794423197847),
-      new kakao.maps.LatLng(37.498553760499505, 127.02882598822454),
-      new kakao.maps.LatLng(37.497625593121384, 127.02935713582038),
-      new kakao.maps.LatLng(37.49646391248451, 127.02675574250912),
-      new kakao.maps.LatLng(37.49629291770947, 127.02587362608637),
-      new kakao.maps.LatLng(37.49754540521486, 127.02546694890695),
-    ],
+      cctvMarkers: [],
+      wifiMarkers: [],
+      parkingLotMarkers: [],
 
-    wifiPositions: [
-      new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
-      new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
-      new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
-      new kakao.maps.LatLng(37.49640072567703, 127.02726459882308),
-      new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
-      new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
-      new kakao.maps.LatLng(37.49996818951873, 127.02943721562295),
-    ],
+      cctvPositions: this.props.cctvs,
 
-    parkingLotPositions: [
-      new kakao.maps.LatLng(37.49966168796031, 127.03007039430118),
-      new kakao.maps.LatLng(37.499463762912974, 127.0288828824399),
-      new kakao.maps.LatLng(37.49896834100913, 127.02833986892401),
-      new kakao.maps.LatLng(37.49893267508434, 127.02673400572665),
-      new kakao.maps.LatLng(37.49872543597439, 127.02676785815386),
-      new kakao.maps.LatLng(37.49813096097184, 127.02591949495914),
-      new kakao.maps.LatLng(37.497680616783086, 127.02518427952202),
-    ],
-  };
-// ===================================================================
+      wifiPositions: [
+        new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
+        new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
+        new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
+        new kakao.maps.LatLng(37.49640072567703, 127.02726459882308),
+        new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
+        new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
+        new kakao.maps.LatLng(37.49996818951873, 127.02943721562295),
+      ],
+
+      parkingLotPositions: [
+        new kakao.maps.LatLng(37.49966168796031, 127.03007039430118),
+        new kakao.maps.LatLng(37.499463762912974, 127.0288828824399),
+        new kakao.maps.LatLng(37.49896834100913, 127.02833986892401),
+        new kakao.maps.LatLng(37.49893267508434, 127.02673400572665),
+        new kakao.maps.LatLng(37.49872543597439, 127.02676785815386),
+        new kakao.maps.LatLng(37.49813096097184, 127.02591949495914),
+        new kakao.maps.LatLng(37.497680616783086, 127.02518427952202),
+      ],
+
+      imageSize: new kakao.maps.Size(50, 50),
+
+    }
+  }
+
+  setCctvMarkers(map) {
+    for (var i = 0; i < this.state.cctvMarkers.length; i++) {
+      this.state.cctvMarkers[i].setMap(map);
+    }
+  }
+
   componentDidMount() {
-    var imageSize = new kakao.maps.Size(50, 50);
+    var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, this.state.imageSize);
+    var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, this.state.imageSize);
+    var parkingLotImg = new kakao.maps.MarkerImage(this.state.ParkingLotImgSrc, this.state.imageSize);
 
-    var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, imageSize);
-    var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, imageSize);
-    var parkingLotImg = new kakao.maps.MarkerImage(
-      this.state.ParkingLotImgSrc,
-      imageSize
-    );
-
-    var container = document.getElementById("map"); // 지도를 표시할 div
+    var container = document.getElementById("map");
     var options = {
-      center: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437), // 지도의 중심좌표
-      level: 3, // 지도의 확대 레벨
+      center: new kakao.maps.LatLng(37.46855, 127.12096), 
+      level: 3,
     };
+    var map = new kakao.maps.Map(container, options);
 
-    var map = new kakao.maps.Map(container, options);  //첫 렌더링 때 지도 그리기
-
-    // ====== this.state를 function에서 못가져오는 것을 해결한 방법입니다!======
-    // ====== 함수 밖에서 미리 변수로 선언하고 function으로 가져오기 
-            // - 주연님이 이미 사용한 방법이었나?======
     var cctvPositions = this.state.cctvPositions;
     var wifiPositions = this.state.wifiPositions;
     var parkingLotPositions = this.state.parkingLotPositions;
@@ -93,21 +87,24 @@ class Map extends Component {
 
         // var markerImage = createMarkerImage(cctvImg, imageSize, imageOptions);
         // var markerImage = new kakao.maps.MarkerImage(cctvImg, imageSize, imageOptions);
+
         var marker = new kakao.maps.Marker({
-          position: cctvPositions[i],
+          position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
           image: cctvImg,
           title: 'CCTV'
+
         });
         cctvMarkers.push(marker);
       }
     }
 
     // ====================================
-    function createWifiMarkers() {   // 위의 createCctvMarkers()와 같은 코드 - 주석 제거
+    function createWifiMarkers() {  
       for (var i = 0; i < wifiPositions.length; i++) {
         var marker = new kakao.maps.Marker({
           position: wifiPositions[i],
           image: wifiImg,
+          clickable: true
         });
         wifiMarkers.push(marker);
       }
@@ -119,35 +116,38 @@ class Map extends Component {
         var marker = new kakao.maps.Marker({
           position: parkingLotPositions[i],
           image: parkingLotImg,
+          clickable: true
         });
         parkingLotMarkers.push(marker);
       }
     }
 
+    // });
 
 
+    function createinfowindow() {    
+      for (var i = 0; i < cctvPositions.length; i++) {
+        var infowindow = new kakao.maps.InfoWindow({
+          map: map, 
+          position : cctvPositions[i], 
+          content : document.getElementById('info-window'),
+          removable : true
+        });
+      }
+    }
 
     createCctvMarkers();
     createWifiMarkers();
     createParkingLotMarkers();
-
+    createinfowindow()
   }
   // ====================== state 정보가 바뀔 때마다 실행됨 ====================================
   componentDidUpdate() {
-    var getState = this.state.type;
+    var get_type = this.state.type;
 
-    var imageSize = new kakao.maps.Size(50, 50);
-
-    var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, imageSize);
-    var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, imageSize);
-    var parkingLotImg = new kakao.maps.MarkerImage(
-      this.state.ParkingLotImgSrc,
-      imageSize
-    );
-
-    var cctvMarkers = [];
-    var wifiMarkers = [];
-    var parkingLotMarkers = [];
+    var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, this.state.imageSize);
+    var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, this.state.imageSize);
+    var parkingLotImg = new kakao.maps.MarkerImage(this.state.ParkingLotImgSrc, this.state.imageSize);
 
     var container = document.getElementById("map");
     var options = {
@@ -161,11 +161,15 @@ class Map extends Component {
     var wifiPositions = this.state.wifiPositions;
     var parkingLotPositions = this.state.parkingLotPositions;
 
+    var cctvMarkers = this.state.cctvMarkers;
+    var wifiMarkers = this.state.wifiMarkers;
+    var parkingLotMarkers = this.state.parkingLotMarkers;
+
     // =================================================
     function createCctvMarkers() {
       for (var i = 0; i < cctvPositions.length; i++) {
         var marker = new kakao.maps.Marker({
-          position: cctvPositions[i],
+          position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
           image: cctvImg,
         });
         cctvMarkers.push(marker);
@@ -215,7 +219,7 @@ class Map extends Component {
       var wifiMenu = document.getElementById("wifiMenu");
       var parkingLotMenu = document.getElementById("parkingLotMenu");
 
-      if (getState === "cctv") {
+      if (get_type === "cctv") {
         cctvMenu.className = "menu_selected";
         wifiMenu.className = "";
         parkingLotMenu.className = "";
@@ -223,7 +227,7 @@ class Map extends Component {
         setCctvMarkers(map);
         setWifiMarkers(null);
         setParkingLotMarkers(null);
-      } else if (getState === "wifi") {
+      } else if (get_type === "wifi") {
         cctvMenu.className = "";
         wifiMenu.className = "menu_selected";
         parkingLotMenu.className = "";
@@ -231,7 +235,7 @@ class Map extends Component {
         setCctvMarkers(null);
         setWifiMarkers(map);
         setParkingLotMarkers(null);
-      } else if (getState === "parkingLot") {
+      } else if (get_type === "parkingLot") {
         cctvMenu.className = "";
         wifiMenu.className = "";
         parkingLotMenu.className = "menu_selected";
@@ -242,9 +246,6 @@ class Map extends Component {
       }
     }
 
-
-
-    // change할 때마다 setCctvMarkers에서 null처리를 하므로 create로 마커들을 계속 다시 그려줘야 하는 것 같습니다
     createCctvMarkers();
     createWifiMarkers();
     createParkingLotMarkers();
@@ -329,5 +330,6 @@ class Map extends Component {
     );
   }
 }
+
 
 export default Map;
