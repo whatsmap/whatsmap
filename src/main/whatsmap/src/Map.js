@@ -8,7 +8,6 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cctvs: this.props.cctvs,
       window_data: "Hello World!",
 
       cctv: [37.46855, 127.12096],
@@ -25,15 +24,7 @@ class Map extends Component {
       wifiMarkers: [],
       parkingLotMarkers: [],
 
-      cctvPositions: [
-        new kakao.maps.LatLng(37.499590490909185, 127.0263723554437),
-        new kakao.maps.LatLng(37.499427948430814, 127.02794423197847),
-        new kakao.maps.LatLng(37.498553760499505, 127.02882598822454),
-        new kakao.maps.LatLng(37.497625593121384, 127.02935713582038),
-        new kakao.maps.LatLng(37.49646391248451, 127.02675574250912),
-        new kakao.maps.LatLng(37.49629291770947, 127.02587362608637),
-        new kakao.maps.LatLng(37.49754540521486, 127.02546694890695),
-      ],
+      cctvPositions: this.props.cctvs,
 
       wifiPositions: [
         new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
@@ -73,7 +64,7 @@ class Map extends Component {
 
     var container = document.getElementById("map");
     var options = {
-      center: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437), 
+      center: new kakao.maps.LatLng(37.46855, 127.12096), 
       level: 3,
     };
     var map = new kakao.maps.Map(container, options);
@@ -89,7 +80,7 @@ class Map extends Component {
     function createCctvMarkers() {    
       for (var i = 0; i < cctvPositions.length; i++) {
         var marker = new kakao.maps.Marker({
-          position: cctvPositions[i],
+          position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
           image: cctvImg,
           clickable: true
         });
@@ -123,8 +114,8 @@ class Map extends Component {
 
     // ====================================
 
-    // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-    // var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    // // 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+    // // var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
     // var iwContent = document.getElementById("info-window"), // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
     //     iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
@@ -135,17 +126,17 @@ class Map extends Component {
     // });
 
     // // 마커에 클릭이벤트를 등록합니다
-    // kakao.maps.event.addListener(cctvMarker, 'click', function() {
+    // kakao.maps.event.addListener(cctvMarkers, 'click', function() {
     //       // 마커 위에 인포윈도우를 표시합니다
-    //       infowindow.open(map, cctvMarker);
+    //       infowindow.open(map, cctvMarkers);
     // });
-    // kakao.maps.event.addListener(wifiMarker, 'click', function() {
+    // kakao.maps.event.addListener(this.wifiMarker, 'click', function() {
     //       // 마커 위에 인포윈도우를 표시합니다
-    //       infowindow.open(map, wifiMarker);
+    //       infowindow.open(map, this.wifiMarker);
     // });
-    // kakao.maps.event.addListener(parkingLotMarker, 'click', function() {
+    // kakao.maps.event.addListener(this.parkingLotMarker, 'click', function() {
     //       // 마커 위에 인포윈도우를 표시합니다
-    //       infowindow.open(map, parkingLotMarker);
+    //       infowindow.open(map, this.parkingLotMarker);
     // });
 
     createCctvMarkers();
@@ -181,7 +172,7 @@ class Map extends Component {
     function createCctvMarkers() {
       for (var i = 0; i < cctvPositions.length; i++) {
         var marker = new kakao.maps.Marker({
-          position: cctvPositions[i],
+          position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
           image: cctvImg,
         });
         cctvMarkers.push(marker);
