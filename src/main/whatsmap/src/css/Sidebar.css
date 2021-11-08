@@ -6,13 +6,6 @@
     position: fixed;
 }
 
-.side-bar-buttons {
-    height: 10%;
-    background-color: rgb(58, 56, 54);
-    color: bisque;
-    cursor: pointer;
-}
-
 .side-bar-search {
     height: 10%;
     width: 80%;
