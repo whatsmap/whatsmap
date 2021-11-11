@@ -7,15 +7,15 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-11-12T00:18:29+0900",
+    date = "2021-11-12T00:49:41+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_201 (Oracle Corporation)"
 )
 @Component
 public class WifiMapMapperImpl implements WifiMapMapper {
 
     @Override
-    public WifiMap toDto(Wifi e) {
-        if ( e == null ) {
+    public WifiMap toDto(Wifi arg0) {
+        if ( arg0 == null ) {
             return null;
         }
 
@@ -29,8 +29,8 @@ public class WifiMapMapperImpl implements WifiMapMapper {
     }
 
     @Override
-    public Wifi toEntity(WifiMap d) {
-        if ( d == null ) {
+    public Wifi toEntity(WifiMap arg0) {
+        if ( arg0 == null ) {
             return null;
         }
 
