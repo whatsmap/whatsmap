@@ -25,16 +25,17 @@ class Map extends Component {
       parkingLotMarkers: [],
 
       // cctvPositions: this.props.cctvs,
+      cctvPositions: [],
 
-      cctvPositions: [
-        new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
-        new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
-        new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
-        new kakao.maps.LatLng(37.49640072567703, 127.02726459882308),
-        new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
-        new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
-        new kakao.maps.LatLng(37.49996818951873, 127.02943721562295),
-      ],
+      // cctvPositions: [
+      //   new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
+      //   new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
+      //   new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
+      //   new kakao.maps.LatLng(37.49640072567703, 127.02726459882308),
+      //   new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
+      //   new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
+      //   new kakao.maps.LatLng(37.49996818951873, 127.02943721562295),
+      // ],
 
       wifiPositions: [
         new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
@@ -68,6 +69,30 @@ class Map extends Component {
   }
 
   componentDidMount() {
+    const requestOptions = {
+        method: "GET",
+        headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    };
+    // latitude/37.46855
+    fetch("http://localhost:80/cctv/all", requestOptions)
+    .then((response) => response.json())
+    .then(
+        (response) => {
+        this.setState({
+          cctvPositions: response,
+        });
+        },
+        (error) => {
+        this.setState({
+            //error시 하고싶은거
+        });
+        }
+    );
+
+
     var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, this.state.imageSize);
     var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, this.state.imageSize);
     var parkingLotImg = new kakao.maps.MarkerImage(this.state.ParkingLotImgSrc, this.state.imageSize);
@@ -99,11 +124,11 @@ class Map extends Component {
         // var markerImage = new kakao.maps.MarkerImage(cctvImg, imageSize, imageOptions);
 
         var marker = new kakao.maps.Marker({
-          // position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
-          position: cctvPositions[i],
+          position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
+          // position: cctvPositions[i],
           image: cctvImg,
           title: 'CCTV'
-
+          // clickable: true
         });
         cctvMarkers.push(marker);
       }
