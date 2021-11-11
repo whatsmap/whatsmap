@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Setter
 @Getter
@@ -18,35 +16,31 @@ import javax.persistence.Id;
 public class Wifi {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @NotNull
+    @Column(nullable = false)
     private double latitude;
 
-    @NotNull
+    @Column(nullable = false)
     private double longitude;
 
-    @NotNull
-    @Column(name = "old_address")
+    @Column(name = "old_address", nullable = false)
     private String oldAddress;
 
-    @NotNull
-    @Column(name = "new_address")
+    @Column(name = "new_address", nullable = false)
     private String newAddress;
 
-    @NotNull
+    @Column(nullable = false)
     private String place;
 
-    @NotNull
-    @Column(name = "place_detail")
+    @Column(name = "place_detail", nullable = false)
     private String placeDetail;
 
-    @NotNull
-    @Column(name = "mng_name")
+    @Column(name = "mng_name", nullable = false)
     private String mngName;
 
-    @NotNull
-    @Column(name = "mng_phone")
+    @Column(name = "mng_phone", nullable = false)
     private String mngPhone;
 
 }

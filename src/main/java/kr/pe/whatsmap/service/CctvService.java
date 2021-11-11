@@ -18,11 +18,6 @@ public class CctvService {
 
     private final CctvRepository cctvRepository;
 
-//    public CctvDTO.CctvMap findByIdx(Long idx) {
-//        Cctv entity = cctvRepository.findByIdx(idx);
-//        return new CctvDTO.CctvMap(entity);
-//    }
-
     public CctvDTO.CctvMap findByLatitude(Double lat) {
         Cctv entity = cctvRepository.findByLatitude(lat);
         return new CctvDTO.CctvMap(entity);
@@ -30,5 +25,9 @@ public class CctvService {
 
     public List<CctvDTO.CctvMap> findAll() {
         return cctvRepository.findAll().stream().map(CctvDTO.CctvMap::new).collect(Collectors.toList());
+    }
+
+    public List<CctvDTO.CctvAllInfo> findAllCctvInfo() {
+        return cctvRepository.findAll().stream().map(CctvDTO.CctvAllInfo::new).collect(Collectors.toList());
     }
 }
