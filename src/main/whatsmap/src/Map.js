@@ -90,16 +90,7 @@ class Map extends Component {
     // 기존에 있던 코드들 주석 처리 
     function createCctvMarkers() {    
       for (var i = 0; i < cctvPositions.length; i++) {
-        // var imageOptions = {
-        //         spriteOrigin: new kakao.maps.Point(10, 0),  =====> sprite 적용하는 부분을 못찾아서 사용안함
-        //         spriteSize: new kakao.maps.Size(36, 98)
-        //     };
-
-        // var markerImage = createMarkerImage(cctvImg, imageSize, imageOptions);
-        // var markerImage = new kakao.maps.MarkerImage(cctvImg, imageSize, imageOptions);
-
         var marker = new kakao.maps.Marker({
-          // position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
           position: cctvPositions[i],
           image: cctvImg,
           title: 'CCTV'
