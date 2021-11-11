@@ -21,6 +21,14 @@ public class WifiInfoMapperImpl implements WifiInfoMapper {
 
         WifiInfo wifiInfo = new WifiInfo();
 
+        wifiInfo.setIdx( e.getIdx() );
+        wifiInfo.setOldAddress( e.getOldAddress() );
+        wifiInfo.setNewAddress( e.getNewAddress() );
+        wifiInfo.setPlace( e.getPlace() );
+        wifiInfo.setPlaceDetail( e.getPlaceDetail() );
+        wifiInfo.setMngName( e.getMngName() );
+        wifiInfo.setMngPhone( e.getMngPhone() );
+
         return wifiInfo;
     }
 
@@ -31,6 +39,14 @@ public class WifiInfoMapperImpl implements WifiInfoMapper {
         }
 
         Wifi wifi = new Wifi();
+
+        wifi.setIdx( d.getIdx() );
+        wifi.setOldAddress( d.getOldAddress() );
+        wifi.setNewAddress( d.getNewAddress() );
+        wifi.setPlace( d.getPlace() );
+        wifi.setPlaceDetail( d.getPlaceDetail() );
+        wifi.setMngName( d.getMngName() );
+        wifi.setMngPhone( d.getMngPhone() );
 
         return wifi;
     }

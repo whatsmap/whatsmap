@@ -21,6 +21,13 @@ public class CctvMapMapperImpl implements CctvMapMapper {
 
         CctvMap cctvMap = new CctvMap();
 
+        if ( e.getLatitude() != null ) {
+            cctvMap.setLatitude( e.getLatitude() );
+        }
+        if ( e.getLongitude() != null ) {
+            cctvMap.setLongitude( e.getLongitude() );
+        }
+
         return cctvMap;
     }
 
@@ -31,6 +38,9 @@ public class CctvMapMapperImpl implements CctvMapMapper {
         }
 
         Cctv cctv = new Cctv();
+
+        cctv.setLatitude( d.getLatitude() );
+        cctv.setLongitude( d.getLongitude() );
 
         return cctv;
     }

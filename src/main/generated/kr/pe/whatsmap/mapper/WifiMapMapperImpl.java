@@ -21,6 +21,10 @@ public class WifiMapMapperImpl implements WifiMapMapper {
 
         WifiMap wifiMap = new WifiMap();
 
+        wifiMap.setIdx( e.getIdx() );
+        wifiMap.setLatitude( e.getLatitude() );
+        wifiMap.setLongitude( e.getLongitude() );
+
         return wifiMap;
     }
 
@@ -31,6 +35,10 @@ public class WifiMapMapperImpl implements WifiMapMapper {
         }
 
         Wifi wifi = new Wifi();
+
+        wifi.setIdx( d.getIdx() );
+        wifi.setLatitude( d.getLatitude() );
+        wifi.setLongitude( d.getLongitude() );
 
         return wifi;
     }

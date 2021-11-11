@@ -21,6 +21,14 @@ public class CctvInfoMapperImpl implements CctvInfoMapper {
 
         CctvInfo cctvInfo = new CctvInfo();
 
+        cctvInfo.setIdx( e.getIdx() );
+        cctvInfo.setKeepDay( e.getKeepDay() );
+        cctvInfo.setOldAddress( e.getOldAddress() );
+        cctvInfo.setNewAddress( e.getNewAddress() );
+        cctvInfo.setCount( e.getCount() );
+        cctvInfo.setMngName( e.getMngName() );
+        cctvInfo.setMngPhone( e.getMngPhone() );
+
         return cctvInfo;
     }
 
@@ -31,6 +39,14 @@ public class CctvInfoMapperImpl implements CctvInfoMapper {
         }
 
         Cctv cctv = new Cctv();
+
+        cctv.setIdx( d.getIdx() );
+        cctv.setKeepDay( d.getKeepDay() );
+        cctv.setOldAddress( d.getOldAddress() );
+        cctv.setNewAddress( d.getNewAddress() );
+        cctv.setCount( d.getCount() );
+        cctv.setMngName( d.getMngName() );
+        cctv.setMngPhone( d.getMngPhone() );
 
         return cctv;
     }

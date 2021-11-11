@@ -21,6 +21,10 @@ public class ParkinglotMapMapperImpl implements ParkinglotMapMapper {
 
         ParkinglotMap parkinglotMap = new ParkinglotMap();
 
+        parkinglotMap.setIdx( e.getIdx() );
+        parkinglotMap.setLatitude( e.getLatitude() );
+        parkinglotMap.setLongitude( e.getLongitude() );
+
         return parkinglotMap;
     }
 
@@ -31,6 +35,10 @@ public class ParkinglotMapMapperImpl implements ParkinglotMapMapper {
         }
 
         Parkinglot parkinglot = new Parkinglot();
+
+        parkinglot.setIdx( d.getIdx() );
+        parkinglot.setLatitude( d.getLatitude() );
+        parkinglot.setLongitude( d.getLongitude() );
 
         return parkinglot;
     }
