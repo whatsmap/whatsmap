@@ -14,30 +14,30 @@ class Landing extends Component{
         }
     }
 
-    componentDidMount() {
-        const requestOptions = {
-            method: "GET",
-            headers: { 
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-        // latitude/37.46855
-        fetch("http://localhost:80/cctv/all", requestOptions)
-        .then((response) => response.json())
-        .then(
-            (response) => {
-            this.setState({
-                cctvs: response,
-            });
-            },
-            (error) => {
-            this.setState({
-                //error시 하고싶은거
-            });
-            }
-        );
-    }
+    // componentDidMount() {
+    //     const requestOptions = {
+    //         method: "GET",
+    //         headers: { 
+    //             "Content-Type": "application/json",
+    //             "Accept": "application/json"
+    //         }
+    //     };
+    //     // latitude/37.46855
+    //     fetch("http://localhost:80/cctv/all", requestOptions)
+    //     .then((response) => response.json())
+    //     .then(
+    //         (response) => {
+    //         this.setState({
+    //             cctvs: response,
+    //         });
+    //         },
+    //         (error) => {
+    //         this.setState({
+    //             //error시 하고싶은거
+    //         });
+    //         }
+    //     );
+    // }
 
     onStartMap() {
         this.setState(state => ({

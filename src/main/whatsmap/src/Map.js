@@ -75,6 +75,30 @@ class Map extends Component {
 
 // ===============================================================================
   componentDidMount() {
+    const requestOptions = {
+        method: "GET",
+        headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    };
+    // latitude/37.46855
+    fetch("http://localhost:80/cctv/all", requestOptions)
+    .then((response) => response.json())
+    .then(
+        (response) => {
+        this.setState({
+          cctvPositions: response,
+        });
+        },
+        (error) => {
+        this.setState({
+            //error시 하고싶은거
+        });
+        }
+    );
+
+
     var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, this.state.imageSize);
     var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, this.state.imageSize);
     var parkingLotImg = new kakao.maps.MarkerImage(this.state.ParkingLotImgSrc, this.state.imageSize);
@@ -98,9 +122,12 @@ class Map extends Component {
     function createCctvMarkers() {    
       for (var i = 0; i < cctvPositions.length; i++) {
         var marker = new kakao.maps.Marker({
-          position: cctvPositions[i],
+          position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
+          // position: cctvPositions[i],
           image: cctvImg,
           title: 'CCTV'
+          // clickable: true
+
         });
         cctvMarkers.push(marker);
       }
@@ -131,18 +158,6 @@ class Map extends Component {
     }
 
     // });
-
-
-    // function createinfowindow() {    
-    //   for (var i = 0; i < cctvPositions.length; i++) {
-    //     var infowindow = new kakao.maps.InfoWindow({
-    //       map: map, 
-    //       position : cctvPositions[i], 
-    //       content : document.getElementById('info-window'),
-    //       removable : true
-    //     });
-    //   }
-    // }
 
     createCctvMarkers();
     createWifiMarkers();
