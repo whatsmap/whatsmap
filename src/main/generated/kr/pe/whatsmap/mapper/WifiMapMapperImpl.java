@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-11-08T02:01:52+0900",
+    date = "2021-11-12T00:18:29+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_201 (Oracle Corporation)"
 )
 @Component
@@ -21,6 +21,10 @@ public class WifiMapMapperImpl implements WifiMapMapper {
 
         WifiMap wifiMap = new WifiMap();
 
+        wifiMap.setIdx( e.getIdx() );
+        wifiMap.setLatitude( e.getLatitude() );
+        wifiMap.setLongitude( e.getLongitude() );
+
         return wifiMap;
     }
 
@@ -31,6 +35,10 @@ public class WifiMapMapperImpl implements WifiMapMapper {
         }
 
         Wifi wifi = new Wifi();
+
+        wifi.setIdx( d.getIdx() );
+        wifi.setLatitude( d.getLatitude() );
+        wifi.setLongitude( d.getLongitude() );
 
         return wifi;
     }
