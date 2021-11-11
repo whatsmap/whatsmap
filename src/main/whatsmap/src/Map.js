@@ -59,6 +59,8 @@ class Map extends Component {
 
       imageSize: new kakao.maps.Size(50, 50),
 
+      overlay: []
+
     }
   }
 
@@ -77,7 +79,7 @@ class Map extends Component {
         }
     };
     // latitude/37.46855
-    fetch("http://localhost:80/cctv/all", requestOptions)
+    fetch("http://localhost:80/cctv/allinfo", requestOptions)
     .then((response) => response.json())
     .then(
         (response) => {
@@ -291,11 +293,32 @@ class Map extends Component {
       var iwContent = document.getElementById("info-window"); // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
       var iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
-      // 인포윈도우를 생성합니다
+      var overlay = this.state.overlay;
+
+      // 마커 위에 커스텀오버레이를 표시합니다
+      // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+      for(let i=0; i<cctvPositions.length; i++) {
+          var over = new kakao.maps.CustomOverlay({
+          content: iwContent,
+          map: map,
+          position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude)
+        });
+        overlay.push(over);
+      }
+
+      // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+      function closeOverlay() {
+        overlay.setMap(null);
+      }
+
+
+      // // 인포윈도우를 생성합니다
       var infowindow = new kakao.maps.InfoWindow({
         content: iwContent,
         removable : iwRemoveable
       });
+
+
 
        // 마커에 클릭이벤트를 등록합니다
     //   (this.cctvMarker, 'click', function() {
@@ -305,7 +328,8 @@ class Map extends Component {
     for(let i=0; i<cctvMarkers.length; i++) {
       kakao.maps.event.addListener(cctvMarkers[i], 'click', function() {
         // 마커 위에 인포윈도우를 표시합니다
-        infowindow.open(map, cctvMarkers[i]);
+        // infowindow.open(map, cctvMarkers[i]);
+        overlay.setMap(map);
       });
     }
     
@@ -313,6 +337,7 @@ class Map extends Component {
       kakao.maps.event.addListener(wifiMarkers[i], 'click', function() {
         // 마커 위에 인포윈도우를 표시합니다
         infowindow.open(map, wifiMarkers[i]);
+        // overlay.setMap(map);
       });
     }
 
@@ -320,6 +345,7 @@ class Map extends Component {
       kakao.maps.event.addListener(parkingLotMarkers[i], 'click', function() {
         // 마커 위에 인포윈도우를 표시합니다
         infowindow.open(map, parkingLotMarkers[i]);
+        // overlay.setMap(map);
       });
     }
 
@@ -329,7 +355,31 @@ class Map extends Component {
     return (
       <div id="mapwrap">
         <div id="map" className="draw-map"></div>
-        <div id="info-window">{this.state.window_data}</div>
+        {/* <div id="info-window">{this.state.window_data}</div> */}
+
+        <div id="info-window">
+          <div className="wrap">
+            <div className="info">
+                <div className="title">
+                    카카오 스페이스닷원
+                    {/* {this.state.cctvPositions[6]} */}
+                    {/* <div class="close" onclick="closeOverlay()" title="닫기"></div> */}
+                </div>
+                <div className="body">
+                    {/* <div class="img">
+                        <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">
+                    </div> */}
+                    <div className="desc">
+                        <div className="ellipsis">제주특별자치도 제주시 첨단로 242</div>
+                        <div className="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>
+                        <div><a href="https://www.kakaocorp.com/main" target="_blank" className="link">홈페이지</a></div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+
         <div className="category">
           <ul>
             <li
