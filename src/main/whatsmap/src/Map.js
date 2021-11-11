@@ -24,17 +24,17 @@ class Map extends Component {
       wifiMarkers: [],
       parkingLotMarkers: [],
 
-      // cctvPositions: this.props.cctvs,
+      cctvPositions: this.props.cctvs,
 
-      cctvPositions: [
-        new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
-        new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
-        new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
-        new kakao.maps.LatLng(37.49640072567703, 127.02726459882308),
-        new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
-        new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
-        new kakao.maps.LatLng(37.49996818951873, 127.02943721562295),
-      ],
+      // cctvPositions: [
+      //   new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
+      //   new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
+      //   new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
+      //   new kakao.maps.LatLng(37.49640072567703, 127.02726459882308),
+      //   new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
+      //   new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
+      //   new kakao.maps.LatLng(37.49996818951873, 127.02943721562295),
+      // ],
 
       wifiPositions: [
         new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
@@ -58,6 +58,11 @@ class Map extends Component {
 
       imageSize: new kakao.maps.Size(50, 50),
 
+      infowindow: new kakao.maps.InfoWindow({
+        content: document.getElementById("info-window"),
+        removable : true
+      })
+
     }
   }
 
@@ -67,14 +72,40 @@ class Map extends Component {
     }
   }
 
+
+// ===============================================================================
   componentDidMount() {
+    const requestOptions = {
+        method: "GET",
+        headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    };
+    // latitude/37.46855
+    fetch("http://localhost:80/cctv/all", requestOptions)
+    .then((response) => response.json())
+    .then(
+        (response) => {
+        this.setState({
+          cctvPositions: response,
+        });
+        },
+        (error) => {
+        this.setState({
+            //error시 하고싶은거
+        });
+        }
+    );
+
+
     var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, this.state.imageSize);
     var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, this.state.imageSize);
     var parkingLotImg = new kakao.maps.MarkerImage(this.state.ParkingLotImgSrc, this.state.imageSize);
 
     var container = document.getElementById("map");
     var options = {
-      center: new kakao.maps.LatLng(37.46855, 127.12096), 
+      center: new kakao.maps.LatLng(37.497535461505684, 127.02948149502778), 
       level: 3,
     };
     var map = new kakao.maps.Map(container, options);
@@ -90,19 +121,12 @@ class Map extends Component {
     // 기존에 있던 코드들 주석 처리 
     function createCctvMarkers() {    
       for (var i = 0; i < cctvPositions.length; i++) {
-        // var imageOptions = {
-        //         spriteOrigin: new kakao.maps.Point(10, 0),  =====> sprite 적용하는 부분을 못찾아서 사용안함
-        //         spriteSize: new kakao.maps.Size(36, 98)
-        //     };
-
-        // var markerImage = createMarkerImage(cctvImg, imageSize, imageOptions);
-        // var markerImage = new kakao.maps.MarkerImage(cctvImg, imageSize, imageOptions);
-
         var marker = new kakao.maps.Marker({
-          // position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
-          position: cctvPositions[i],
+          position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
+          // position: cctvPositions[i],
           image: cctvImg,
           title: 'CCTV'
+          // clickable: true
 
         });
         cctvMarkers.push(marker);
@@ -135,22 +159,10 @@ class Map extends Component {
 
     // });
 
-
-    function createinfowindow() {    
-      for (var i = 0; i < cctvPositions.length; i++) {
-        var infowindow = new kakao.maps.InfoWindow({
-          map: map, 
-          position : cctvPositions[i], 
-          content : document.getElementById('info-window'),
-          removable : true
-        });
-      }
-    }
-
     createCctvMarkers();
     createWifiMarkers();
     createParkingLotMarkers();
-    createinfowindow()
+    // createinfowindow()
   }
   // ====================== state 정보가 바뀔 때마다 실행됨 ====================================
   componentDidUpdate() {
@@ -262,39 +274,23 @@ class Map extends Component {
     createParkingLotMarkers();
     changeMarker();
 
-    // ===================================
-    //마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-      var iwContent = document.getElementById("info-window"); // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-      var iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+    // ===================================================================
+    var infowindow = this.state.infowindow;
 
-      // 인포윈도우를 생성합니다
-      var infowindow = new kakao.maps.InfoWindow({
-        content: iwContent,
-        removable : iwRemoveable
-      });
-
-       // 마커에 클릭이벤트를 등록합니다
-    //   (this.cctvMarker, 'click', function() {
-    //         // 마커 위에 인포윈도우를 표시합니다
-    //         infowindow.open(map, this.cctvMarker);
-    //   });
     for(let i=0; i<cctvMarkers.length; i++) {
       kakao.maps.event.addListener(cctvMarkers[i], 'click', function() {
-        // 마커 위에 인포윈도우를 표시합니다
         infowindow.open(map, cctvMarkers[i]);
       });
     }
     
     for(let i=0; i<wifiMarkers.length; i++) {
       kakao.maps.event.addListener(wifiMarkers[i], 'click', function() {
-        // 마커 위에 인포윈도우를 표시합니다
         infowindow.open(map, wifiMarkers[i]);
       });
     }
 
     for(let i=0; i<parkingLotMarkers.length; i++) {
       kakao.maps.event.addListener(parkingLotMarkers[i], 'click', function() {
-        // 마커 위에 인포윈도우를 표시합니다
         infowindow.open(map, parkingLotMarkers[i]);
       });
     }
