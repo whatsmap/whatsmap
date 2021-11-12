@@ -24,17 +24,7 @@ class Map extends Component {
       wifiMarkers: [],
       parkingLotMarkers: [],
 
-      cctvPositions: this.props.cctvs,
-
-      // cctvPositions: [
-      //   new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
-      //   new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
-      //   new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
-      //   new kakao.maps.LatLng(37.49640072567703, 127.02726459882308),
-      //   new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
-      //   new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
-      //   new kakao.maps.LatLng(37.49996818951873, 127.02943721562295),
-      // ],
+      cctvPositions: [],
 
       wifiPositions: [
         new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
@@ -118,7 +108,6 @@ class Map extends Component {
     var wifiMarkers = this.state.wifiMarkers;
     var parkingLotMarkers = this.state.parkingLotMarkers;
 
-    // 기존에 있던 코드들 주석 처리 
     function createCctvMarkers() {    
       for (var i = 0; i < cctvPositions.length; i++) {
         var marker = new kakao.maps.Marker({
@@ -127,7 +116,6 @@ class Map extends Component {
           image: cctvImg,
           title: 'CCTV'
           // clickable: true
-
         });
         cctvMarkers.push(marker);
       }
@@ -157,12 +145,9 @@ class Map extends Component {
       }
     }
 
-    // });
-
     createCctvMarkers();
     createWifiMarkers();
     createParkingLotMarkers();
-    // createinfowindow()
   }
   // ====================== state 정보가 바뀔 때마다 실행됨 ====================================
   componentDidUpdate() {
