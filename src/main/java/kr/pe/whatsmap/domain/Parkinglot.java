@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Setter
 @Getter
@@ -18,68 +16,58 @@ import javax.persistence.Id;
 public class Parkinglot {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @NotNull
+    @Column(nullable = false)
     private double latitude;
 
-    @NotNull
+    @Column(nullable = false)
     private double longitude;
 
-    @NotNull
-    @Column(name = "old_address")
+    @Column(name = "old_address", nullable = false)
     private String oldAddress;
 
-    @NotNull
-    @Column(name = "new_address")
+    @Column(name = "new_address", nullable = false)
     private String newAddress;
 
-    @NotNull
-    @Column(name = "base_rate")
+    @Column(name = "base_rate", nullable = false)
     private int baseRate;
 
     @Column(name = "extra_fee")
-    private int extraFee;
+    private Integer extraFee;
 
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
-    @NotNull
-    @Column(name = "fee_info")
+    @Column(name = "fee_info", nullable = false)
     private String feeInfo;
 
-    @NotNull
-    @Column(name = "base_time")
+    @Column(name = "base_time", nullable = false)
     private String baseTime;
 
     @Column(name = "extra_time")
     private String extraTime;
 
-    @NotNull
+    @Column(nullable = false)
     private String type;
 
-    @NotNull
-    @Column(name = "d_start")
+    @Column(name = "d_start", nullable = false)
     private String dStart;
 
-    @NotNull
-    @Column(name = "d_end")
+    @Column(name = "d_end", nullable = false)
     private String dEnd;
 
-    @NotNull
-    @Column(name = "s_start")
+    @Column(name = "s_start", nullable = false)
     private String sStart;
 
-    @NotNull
-    @Column(name = "s_end")
+    @Column(name = "s_end", nullable = false)
     private String sEnd;
 
-    @NotNull
-    @Column(name = "h_start")
+    @Column(name = "h_start", nullable = false)
     private String hStart;
 
-    @NotNull
-    @Column(name = "h_end")
+    @Column(name = "h_end", nullable = false)
     private String hEnd;
 
 }

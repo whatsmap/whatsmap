@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-11-08T02:01:52+0900",
+    date = "2021-11-12T00:30:23+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_201 (Oracle Corporation)"
 )
 @Component
@@ -21,6 +21,10 @@ public class ParkinglotMapMapperImpl implements ParkinglotMapMapper {
 
         ParkinglotMap parkinglotMap = new ParkinglotMap();
 
+        parkinglotMap.setIdx( e.getIdx() );
+        parkinglotMap.setLatitude( e.getLatitude() );
+        parkinglotMap.setLongitude( e.getLongitude() );
+
         return parkinglotMap;
     }
 
@@ -31,6 +35,10 @@ public class ParkinglotMapMapperImpl implements ParkinglotMapMapper {
         }
 
         Parkinglot parkinglot = new Parkinglot();
+
+        parkinglot.setIdx( d.getIdx() );
+        parkinglot.setLatitude( d.getLatitude() );
+        parkinglot.setLongitude( d.getLongitude() );
 
         return parkinglot;
     }

@@ -1,16 +1,16 @@
 
-DROP table cctv;
+DROP TABLE IF EXISTS cctv;
 
 CREATE TABLE cctv (
 idx INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-latitude DOUBLE(38, 10),
-longitude DOUBLE(38, 10),
-old_address VARCHAR(128),
-new_address VARCHAR(128),
-keep_day INT(38),
-count_cctv INT(38),
-mng_name VARCHAR(26),
-mng_phone VARCHAR(26)
+latitude DOUBLE(38, 10) NOT NULL,
+longitude DOUBLE(38, 10) NOT NULL,
+old_address VARCHAR(128) NOT NULL,
+new_address VARCHAR(128) NOT NULL,
+keep_day INT(38) NOT NULL,
+count_cctv INT(38) NOT NULL,
+mng_name VARCHAR(26) NOT NULL,
+mng_phone VARCHAR(26) NOT NULL
 );
 
 INSERT INTO cctv (latitude, longitude, old_address, new_address, keep_day, count_cctv, mng_name, mng_phone)
