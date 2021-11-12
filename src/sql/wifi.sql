@@ -1,16 +1,16 @@
 
-DROP table wifi;
+DROP TABLE IF EXISTS wifi;
 
-CREATE TABLE wifi ( 
+CREATE TABLE wifi (
 idx INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-latitude DOUBLE(26, 10),
-longitude DOUBLE(26, 10),
-old_address VARCHAR(26),
-new_address VARCHAR(128),
-place VARCHAR(26),
-place_detail VARCHAR(26),
-mng_name VARCHAR(26),
-mng_phone VARCHAR(26)
+latitude DOUBLE(26, 10) NOT NULL,
+longitude DOUBLE(26, 10) NOT NULL,
+old_address VARCHAR(26) NOT NULL,
+new_address VARCHAR(128) NOT NULL,
+place VARCHAR(26) NOT NULL,
+place_detail VARCHAR(26) NOT NULL,
+mng_name VARCHAR(26) NOT NULL,
+mng_phone VARCHAR(26) NOT NULL
 );
 
 INSERT INTO wifi (latitude, longitude, old_address, new_address, place, place_detail, mng_name, mng_phone) 

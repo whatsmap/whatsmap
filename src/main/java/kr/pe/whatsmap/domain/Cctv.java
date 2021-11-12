@@ -3,9 +3,7 @@ package kr.pe.whatsmap.domain;
 import com.sun.istack.NotNull;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Setter
 @Getter
@@ -13,37 +11,33 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Entity
 public class Cctv {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-    @NotNull
+    @Column(nullable = false)
     private Double latitude;
 
-    @NotNull
+    @Column(nullable = false)
     private Double longitude;
 
-    @NotNull
-    @Column(name = "keep_day")
+    @Column(name = "keep_day", nullable = false)
     private int keepDay;
 
-    @NotNull
-    @Column(name = "old_address")
+    @Column(name = "old_address", nullable = false)
     private String oldAddress;
 
-    @NotNull
-    @Column(name = "new_address")
+    @Column(name = "new_address", nullable = false)
     private String newAddress;
 
-    @NotNull
-    @Column(name = "count_cctv")
+    @Column(name = "count_cctv", nullable = false)
     private int count;
 
-    @NotNull
-    @Column(name = "mng_name")
+    @Column(name = "mng_name", nullable = false)
     private String mngName;
 
-    @NotNull
-    @Column(name = "mng_phone")
+    @Column(name = "mng_phone", nullable = false)
     private String mngPhone;
 
 }

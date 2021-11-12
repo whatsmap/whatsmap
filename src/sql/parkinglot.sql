@@ -1,25 +1,25 @@
 
-DROP table parkinglot;
+DROP TABLE IF EXISTS parkinglot;
 
 CREATE TABLE parkinglot (
 idx INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-latitude DOUBLE(38, 10),
-longitude DOUBLE(38, 10),
-old_address VARCHAR(26),
-new_address VARCHAR(128),
-base_rate INT(38),
+latitude DOUBLE(38, 10) NOT NULL,
+longitude DOUBLE(38, 10) NOT NULL,
+old_address VARCHAR(26) NOT NULL,
+new_address VARCHAR(128) NOT NULL,
+base_rate INT(38) NOT NULL,
 extra_fee INT(38),
-name VARCHAR(26),
-fee_info VARCHAR(26),
-base_time INT(38),
+name VARCHAR(26) NOT NULL,
+fee_info VARCHAR(26) NOT NULL,
+base_time INT(38) NOT NULL,
 extra_time INT(38),
-type VARCHAR(26),
-d_start VARCHAR(26),
-d_end VARCHAR(26),
-s_start VARCHAR(26),
-s_end VARCHAR(26),
-h_start VARCHAR(26),
-h_end VARCHAR(26)
+type VARCHAR(26) NOT NULL,
+d_start VARCHAR(26) NOT NULL,
+d_end VARCHAR(26) NOT NULL,
+s_start VARCHAR(26) NOT NULL,
+s_end VARCHAR(26) NOT NULL,
+h_start VARCHAR(26) NOT NULL,
+h_end VARCHAR(26) NOT NULL
 );
 
 INSERT INTO parkinglot (latitude, longitude, old_address, new_address, base_rate, extra_fee, name, fee_info, base_time, extra_time, type, d_start, d_end, s_start, s_end, h_start, h_end) 
