@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 
 import "./css/Map.css";
+import Search from "./Search";
 
 class Map extends Component {
 
@@ -376,6 +377,7 @@ class Map extends Component {
             </li>
           </ul>
         </div>
+        <Search></Search>
       </div>
     );
   }
