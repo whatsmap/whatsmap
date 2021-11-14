@@ -58,6 +58,7 @@ class Map extends Component {
 
       imageSize: new kakao.maps.Size(50, 50),
 
+      overlays: [],
       infowindow: new kakao.maps.InfoWindow({
         content: document.getElementById("info-window"),
         removable : true
@@ -274,12 +275,35 @@ class Map extends Component {
     createParkingLotMarkers();
     changeMarker();
 
-    // ===================================================================
-    var infowindow = this.state.infowindow;
+    // ===================================
+    //마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+      var iwContent = document.getElementById("info-window"); // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+      var iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+
+      // // 인포윈도우를 생성합니다
+      var infowindow = new kakao.maps.InfoWindow({
+        content: iwContent,
+        removable : iwRemoveable
+      });
+
+
+      var overlays = this.state.overlays;
+      for(let i=0; i<cctvMarkers.length; i++) {
+        var overlay = new kakao.maps.CustomOverlay({
+            content: iwContent,
+            map: map,
+            position: cctvMarkers[i].getPosition()
+        });
+        overlays.push(overlay);
+      }
+
 
     for(let i=0; i<cctvMarkers.length; i++) {
       kakao.maps.event.addListener(cctvMarkers[i], 'click', function() {
-        infowindow.open(map, cctvMarkers[i]);
+        // 마커 위에 인포윈도우를 표시합니다
+        // infowindow.open(map, cctvMarkers[i]);
+        overlays[i].setMap(map);
       });
     }
     
@@ -301,7 +325,26 @@ class Map extends Component {
     return (
       <div id="mapwrap">
         <div id="map" className="draw-map"></div>
-        <div id="info-window">{this.state.window_data}</div>
+        <div id="info-window" className="info-window">{this.state.window_data}</div>
+
+        {/* <div id="info-window">
+          <div className="wrap">
+            <div className="info">
+                <div className="title">
+                    카카오 스페이스닷원
+                    <div className="close" onClick="closeOverlay()" title="닫기"></div>
+                </div>
+                <div className="body">
+                    <div className="desc">
+                        <div className="ellipsis">제주특별자치도</div>
+                        <div className="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div> */}
+
+
         <div className="category">
           <ul>
             <li
