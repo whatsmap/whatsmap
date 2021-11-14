@@ -15,56 +15,27 @@ class Map extends Component {
       wifi: ["37.481974", "127.057478"],
       parkinglot: [37.527308, 127.028324],
 
-      cctvImgSrc: "images/cctv.png",
-      wifiImgSrc: "images/wifi.png",
-      ParkingLotImgSrc: "images/parking.png",
+      cctvImgSrc: "images/003_2.png",
+      wifiImgSrc: "images/001_1.png",
+      ParkingLotImgSrc: "images/002.png",
 
-      type: "cctv",
+      type: "parkingLot",
 
       cctvMarkers: [],
       wifiMarkers: [],
       parkingLotMarkers: [],
 
-      cctvPositions: this.props.cctvs,
-
-      // cctvPositions: [
-      //   new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
-      //   new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
-      //   new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
-      //   new kakao.maps.LatLng(37.49640072567703, 127.02726459882308),
-      //   new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
-      //   new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
-      //   new kakao.maps.LatLng(37.49996818951873, 127.02943721562295),
-      // ],
-
-      wifiPositions: [
-        new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
-        new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
-        new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
-        new kakao.maps.LatLng(37.49640072567703, 127.02726459882308),
-        new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
-        new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
-        new kakao.maps.LatLng(37.49996818951873, 127.02943721562295),
-      ],
-
-      parkingLotPositions: [
-        new kakao.maps.LatLng(37.49966168796031, 127.03007039430118),
-        new kakao.maps.LatLng(37.499463762912974, 127.0288828824399),
-        new kakao.maps.LatLng(37.49896834100913, 127.02833986892401),
-        new kakao.maps.LatLng(37.49893267508434, 127.02673400572665),
-        new kakao.maps.LatLng(37.49872543597439, 127.02676785815386),
-        new kakao.maps.LatLng(37.49813096097184, 127.02591949495914),
-        new kakao.maps.LatLng(37.497680616783086, 127.02518427952202),
-      ],
+      cctvPositions: [],
+      wifiPositions: [],
+      parkingLotPositions: [],
 
       imageSize: new kakao.maps.Size(50, 50),
 
       overlays: [],
-      infowindow: new kakao.maps.InfoWindow({
-        content: document.getElementById("info-window"),
-        removable : true
-      })
-
+      // infowindow: new kakao.maps.InfoWindow({
+      //   content: document.getElementById("info-window"),
+      //   removable : true
+      // })
     }
   }
 
@@ -74,31 +45,73 @@ class Map extends Component {
     }
   }
 
-
-// ===============================================================================
+  // ===============================================================================
   componentDidMount() {
-    const requestOptions = {
-        method: "GET",
-        headers: { 
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
+    const cctvRequestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
     };
-    // latitude/37.46855
-    fetch("http://localhost:80/cctv/all", requestOptions)
-    .then((response) => response.json())
-    .then(
+    fetch("http://localhost:80/cctv/allinfo", cctvRequestOptions)
+      .then((response) => response.json())
+      .then(
         (response) => {
-        this.setState({
-          cctvPositions: response,
-        });
+          this.setState({
+            cctvPositions: response,
+          });
         },
         (error) => {
-        this.setState({
+          this.setState({
             //error시 하고싶은거
-        });
+          });
         }
-    );
+      );
+
+    const wifiRequestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    };
+    fetch("http://localhost:80/wifi/allinfo", wifiRequestOptions)
+      .then((response) => response.json())
+      .then(
+        (response) => {
+          this.setState({
+            wifiPositions: response,
+          });
+        },
+        (error) => {
+          this.setState({
+            //error시 하고싶은거
+          });
+        }
+      );
+
+    const parkinglotRequestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    };
+    fetch("http://localhost:80/parkinglot/allinfo", parkinglotRequestOptions)
+      .then((response) => response.json())
+      .then(
+        (response) => {
+          this.setState({
+            parkingLotPositions: response,
+          });
+        },
+        (error) => {
+          this.setState({
+            //error시 하고싶은거
+          });
+        }
+      );
 
 
     var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, this.state.imageSize);
@@ -107,8 +120,8 @@ class Map extends Component {
 
     var container = document.getElementById("map");
     var options = {
-      center: new kakao.maps.LatLng(37.497535461505684, 127.02948149502778), 
-      level: 3,
+      center: new kakao.maps.LatLng(37.504830, 127.048807),
+      level: 5,
     };
     var map = new kakao.maps.Map(container, options);
 
@@ -121,25 +134,24 @@ class Map extends Component {
     var parkingLotMarkers = this.state.parkingLotMarkers;
 
     // 기존에 있던 코드들 주석 처리 
-    function createCctvMarkers() {    
+    function createCctvMarkers() {
       for (var i = 0; i < cctvPositions.length; i++) {
         var marker = new kakao.maps.Marker({
           position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
-          // position: cctvPositions[i],
           image: cctvImg,
-          title: 'CCTV'
+          title: 'CCTV',
           // clickable: true
-
         });
         cctvMarkers.push(marker);
       }
     }
 
+
     // ====================================
-    function createWifiMarkers() {  
+    function createWifiMarkers() {
       for (var i = 0; i < wifiPositions.length; i++) {
         var marker = new kakao.maps.Marker({
-          position: wifiPositions[i],
+          position: new kakao.maps.LatLng(wifiPositions[i].latitude, wifiPositions[i].longitude),
           image: wifiImg,
           clickable: true
         });
@@ -151,7 +163,7 @@ class Map extends Component {
     function createParkingLotMarkers() {
       for (var i = 0; i < parkingLotPositions.length; i++) {
         var marker = new kakao.maps.Marker({
-          position: parkingLotPositions[i],
+          position: new kakao.maps.LatLng(parkingLotPositions[i].latitude, parkingLotPositions[i].longitude),
           image: parkingLotImg,
           clickable: true
         });
@@ -168,6 +180,7 @@ class Map extends Component {
   }
   // ====================== state 정보가 바뀔 때마다 실행됨 ====================================
   componentDidUpdate() {
+
     var get_type = this.state.type;
 
     var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, this.state.imageSize);
@@ -176,8 +189,8 @@ class Map extends Component {
 
     var container = document.getElementById("map");
     var options = {
-      center: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437),
-      level: 3,
+      center: new kakao.maps.LatLng(37.504830, 127.048807),
+      level: 5,
     };
 
     var map = new kakao.maps.Map(container, options);
@@ -189,8 +202,11 @@ class Map extends Component {
     var cctvMarkers = this.state.cctvMarkers;
     var wifiMarkers = this.state.wifiMarkers;
     var parkingLotMarkers = this.state.parkingLotMarkers;
-
+    
     // =================================================
+    var iwContents = [];
+    var infowindows = [];
+    var iwRemoveable = true;
     function createCctvMarkers() {
       for (var i = 0; i < cctvPositions.length; i++) {
         var marker = new kakao.maps.Marker({
@@ -198,10 +214,31 @@ class Map extends Component {
           image: cctvImg,
         });
         cctvMarkers.push(marker);
+
+        iwContents[i] = `
+          <div style="padding:10px; width:300px;">
+            <p style="font-size:12px; text-align:left;">📷 address : ${cctvPositions[i].newAddress}</p>
+            <p style="font-size:12px; text-align:left;">🏣 management : ${cctvPositions[i].mngName}</p>
+            <p style="font-size:12px; text-align:left;">📞 tel : ${cctvPositions[i].mngPhone}</p>
+          </div>
+        `
+        // 인포윈도우를 생성합니다
+        var infowindow = new kakao.maps.InfoWindow({
+          content: iwContents[i],
+          removable: iwRemoveable
+        });
+        infowindows.push(infowindow); // 이전 인포윈도우 자동 close위해서 배열로 선언
+
+        // 인포윈도우 클릭이벤트
+        kakao.maps.event.addListener(
+          marker,
+          'click',
+          makeInfoWindow(map, marker, infowindow)
+        );
       }
     }
 
-    function setCctvMarkers(map) {
+    function setCctvMarkers(map, infowindow) {
       for (var i = 0; i < cctvMarkers.length; i++) {
         cctvMarkers[i].setMap(map);
       }
@@ -210,10 +247,32 @@ class Map extends Component {
     function createWifiMarkers() {
       for (var i = 0; i < wifiPositions.length; i++) {
         var marker = new kakao.maps.Marker({
-          position: wifiPositions[i],
+          position: new kakao.maps.LatLng(wifiPositions[i].latitude, wifiPositions[i].longitude),
           image: wifiImg,
         });
         wifiMarkers.push(marker);
+
+        iwContents[i] = `
+          <div style="padding:10px; width:300px;">
+            <p style="font-size:12px; text-align:left;">🌈 address : ${wifiPositions[i].newAddress}</p>
+            <p style="font-size:12px; text-align:left;">📌 place : ${wifiPositions[i].place} ${wifiPositions[i].placeDetail}</p>
+            <p style="font-size:12px; text-align:left;">🏣 management : ${wifiPositions[i].mngName}</p>
+            <p style="font-size:12px; text-align:left;">📞 tel : ${wifiPositions[i].mngPhone}</p>
+          </div>
+        `
+        // 인포윈도우를 생성합니다
+        var infowindow = new kakao.maps.InfoWindow({
+          content: iwContents[i],
+          removable: iwRemoveable
+        });
+        infowindows.push(infowindow); // 이전 인포윈도우 자동 close위해서 배열로 선언
+
+        // 인포윈도우 클릭이벤트
+        kakao.maps.event.addListener(
+          marker,
+          'click',
+          makeInfoWindow(map, marker, infowindow)
+        );
       }
     }
 
@@ -226,10 +285,33 @@ class Map extends Component {
     function createParkingLotMarkers() {
       for (var i = 0; i < parkingLotPositions.length; i++) {
         var marker = new kakao.maps.Marker({
-          position: parkingLotPositions[i],
+          position: new kakao.maps.LatLng(parkingLotPositions[i].latitude, parkingLotPositions[i].longitude),
           image: parkingLotImg,
         });
         parkingLotMarkers.push(marker);
+
+        iwContents[i] = `
+          <div style="padding:10px; width:300px;">
+            <p style="font-size:12px; text-align:left;">🚗 address : ${parkingLotPositions[i].newAddress}</p>
+            <p style="font-size:12px; text-align:left;">📢 fee : ${parkingLotPositions[i].feeInfo}</p>
+            <p style="font-size:12px; text-align:left;">💸 기본요금 : 시간당 ${parkingLotPositions[i].baseRate}원</p>
+            <p style="font-size:12px; text-align:left;">⏰ 평일 이용시간 : ${parkingLotPositions[i].dstart} ~ ${parkingLotPositions[i].dend}</p>
+            <p style="font-size:12px; text-align:left;">⏰ 주말 이용시간 : ${parkingLotPositions[i].sstart} ~ ${parkingLotPositions[i].send}</p>
+          </div>
+        `
+        // 인포윈도우를 생성합니다
+        var infowindow = new kakao.maps.InfoWindow({
+          content: iwContents[i],
+          removable: iwRemoveable
+        });
+        infowindows.push(infowindow); // 이전 인포윈도우 자동 close위해서 배열로 선언
+
+        // 인포윈도우 클릭이벤트
+        kakao.maps.event.addListener(
+          marker,
+          'click',
+          makeInfoWindow(map, marker, infowindow)
+        );
       }
     }
 
@@ -238,6 +320,22 @@ class Map extends Component {
         parkingLotMarkers[i].setMap(map);
       }
     }
+
+    // ==================================== 이전 인포윈도우 닫는 function
+    function closeInfoWindow() {
+      for(var i = 0; i < infowindows.length; i++){
+        infowindows[i].close();
+      }
+    }
+
+     // ==================================== 이전 인포윈도우 닫고(closeInfoWindow()), 인포윈도우 생성하는 function
+    function makeInfoWindow(map, marker, infowindow) {
+      return function() {
+        closeInfoWindow();
+        infowindow.open(map, marker);
+      }
+    }
+
     // ====================================
     function changeMarker() {
       var cctvMenu = document.getElementById("cctvMenu");
@@ -274,78 +372,49 @@ class Map extends Component {
     createCctvMarkers();
     createWifiMarkers();
     createParkingLotMarkers();
+    makeInfoWindow();
     changeMarker();
+
+
 
     // ===================================
     //마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
-      var iwContent = document.getElementById("info-window"); // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-      var iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+    // var iwContent = document.getElementById("info-window"); // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    // var iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
 
-      // // 인포윈도우를 생성합니다
-      var infowindow = new kakao.maps.InfoWindow({
-        content: iwContent,
-        removable : iwRemoveable
-      });
+    // // 인포윈도우를 생성합니다
+    // var infowindow = new kakao.maps.InfoWindow({
+    //   content: iwContent,
+    //   // removable: iwRemoveable
+    // });
 
 
-      var overlays = this.state.overlays;
-      for(let i=0; i<cctvMarkers.length; i++) {
-        var overlay = new kakao.maps.CustomOverlay({
-            content: iwContent,
-            map: map,
-            position: cctvMarkers[i].getPosition()
-        });
-        overlays.push(overlay);
-      }
+    // for(let i=0; i<cctvMarkers.length; i++) {
+    //   kakao.maps.event.addListener(cctvMarkers[i], 'click', function() {
+    //     infowindow.open(map, cctvMarkers[i]);
+    //   });
+    // }
 
+    // for (let i = 0; i < wifiMarkers.length; i++) {
+    //   kakao.maps.event.addListener(wifiMarkers[i], 'click', function () {
+    //     infowindow.open(map, wifiMarkers[i]);
+    //   });
+    // }
 
-    for(let i=0; i<cctvMarkers.length; i++) {
-      kakao.maps.event.addListener(cctvMarkers[i], 'click', function() {
-        // 마커 위에 인포윈도우를 표시합니다
-        // infowindow.open(map, cctvMarkers[i]);
-        overlays[i].setMap(map);
-      });
-    }
-    
-    for(let i=0; i<wifiMarkers.length; i++) {
-      kakao.maps.event.addListener(wifiMarkers[i], 'click', function() {
-        infowindow.open(map, wifiMarkers[i]);
-      });
-    }
+    // for (let i = 0; i < parkingLotMarkers.length; i++) {
+    //   kakao.maps.event.addListener(parkingLotMarkers[i], 'click', function () {
+    //     infowindow.open(map, parkingLotMarkers[i]);
+    //   });
+    // }
 
-    for(let i=0; i<parkingLotMarkers.length; i++) {
-      kakao.maps.event.addListener(parkingLotMarkers[i], 'click', function() {
-        infowindow.open(map, parkingLotMarkers[i]);
-      });
-    }
-
- }
+  }
 
   render() {
     return (
       <div id="mapwrap">
         <div id="map" className="draw-map"></div>
-        <div id="info-window" className="info-window">{this.state.window_data}</div>
-
-        {/* <div id="info-window">
-          <div className="wrap">
-            <div className="info">
-                <div className="title">
-                    카카오 스페이스닷원
-                    <div className="close" onClick="closeOverlay()" title="닫기"></div>
-                </div>
-                <div className="body">
-                    <div className="desc">
-                        <div className="ellipsis">제주특별자치도</div>
-                        <div className="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>
-                    </div>
-                </div>
-            </div>
-          </div>
-        </div> */}
-
-
+        {/* <div id="info-window" className="info-window">{this.state.window_data}</div> */}
         <div className="category">
           <ul>
             <li
