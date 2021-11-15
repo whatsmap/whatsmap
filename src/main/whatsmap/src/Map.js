@@ -1,7 +1,6 @@
 /*global kakao*/
 import React, { Component } from "react";
 
-import DrawMap from "./DrawMap";
 import "./css/Map.css";
 import Search from "./Search";
 
@@ -194,12 +193,10 @@ class Map extends Component {
         marker.setMap(map);
       }
     }
-
+    
   }
   // ====================== state 정보가 바뀔 때마다 실행됨 ====================================
   componentDidUpdate() {
-    var get_type = this.state.type;
-
     var container = document.getElementById("map");
     var options = {
       center: new kakao.maps.LatLng(this.state.center_latitude, this.state.center_longitude),
@@ -214,6 +211,10 @@ class Map extends Component {
     var cctv_infowindows = this.state.cctv_infowindows;
     var wifi_infowindows = this.state.wifi_infowindows;
     var parkinglot_infowindows = this.state.parkinglot_infowindows;
+
+    console.log(cctvMarkers)
+    console.log(wifiMarkers)
+    console.log(parkingLotMarkers)
     
     // =================================================
     function closeInfoWindow(infowindows) {
@@ -261,39 +262,42 @@ class Map extends Component {
     }
 
     // ====================================
-    function changeMarker() {
-      var cctvMenu = document.getElementById("cctvMenu");
-      var wifiMenu = document.getElementById("wifiMenu");
-      var parkingLotMenu = document.getElementById("parkingLotMenu");
-
-      if (get_type === "cctv") {
-        cctvMenu.className = "menu_selected";
-        wifiMenu.className = "";
-        parkingLotMenu.className = "";
-
-        setCctvMarkers(map);
-        setWifiMarkers(null);
-        setParkingLotMarkers(null);
-      } else if (get_type === "wifi") {
-        cctvMenu.className = "";
-        wifiMenu.className = "menu_selected";
-        parkingLotMenu.className = "";
-
-        setCctvMarkers(null);
-        setWifiMarkers(map);
-        setParkingLotMarkers(null);
-      } else if (get_type === "parkingLot") {
-        cctvMenu.className = "";
-        wifiMenu.className = "";
-        parkingLotMenu.className = "menu_selected";
-
-        setCctvMarkers(null);
-        setWifiMarkers(null);
-        setParkingLotMarkers(map);
+    function changeMarker(type) {
+      if (cctvMarkers.length > 0 && wifiMarkers.length > 0 && parkingLotMarkers.length > 0){
+        console.log('change');
+        var cctvMenu = document.getElementById("cctvMenu");
+        var wifiMenu = document.getElementById("wifiMenu");
+        var parkingLotMenu = document.getElementById("parkingLotMenu");
+  
+        if (type === "cctv") {
+          cctvMenu.className = "menu_selected";
+          wifiMenu.className = "";
+          parkingLotMenu.className = "";
+  
+          setCctvMarkers(map);
+          setWifiMarkers(null);
+          setParkingLotMarkers(null);
+        } else if (type === "wifi") {
+          cctvMenu.className = "";
+          wifiMenu.className = "menu_selected";
+          parkingLotMenu.className = "";
+  
+          setCctvMarkers(null);
+          setWifiMarkers(map);
+          setParkingLotMarkers(null);
+        } else if (type === "parkingLot") {
+          cctvMenu.className = "";
+          wifiMenu.className = "";
+          parkingLotMenu.className = "menu_selected";
+  
+          setCctvMarkers(null);
+          setWifiMarkers(null);
+          setParkingLotMarkers(map);
+        }
       }
     }
 
-    changeMarker();
+    changeMarker(this.state.type);
 
   }
 
@@ -301,6 +305,13 @@ class Map extends Component {
     return (
       <div id="mapwrap">
         <div id="map" className="draw-map"></div>
+        {/* <ChangeMarker 
+          cctvMarkers={this.state.cctvMarkers}
+          wifiMarkers={this.state.wifiMarkers}
+          parkingLotMarkers={this.state.parkingLotMarkers}
+
+          parkinglot_infowindows={this.state.parkinglot_infowindows}
+        /> */}
         
         <div className="category">
           <ul>
@@ -333,6 +344,7 @@ class Map extends Component {
             </li>
           </ul>
         </div>
+        <Search></Search>
         
       </div>
     );

@@ -1,8 +1,5 @@
-// /*global kakao*/
+/*global kakao*/
 import React, { useEffect, useState } from 'react'
-import Search from './Search'
-
-const { kakao } = window
 
 const MapContainer = ({ searchPlace }) => {
 
@@ -12,9 +9,10 @@ const MapContainer = ({ searchPlace }) => {
   useEffect(() => {
     var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 })
     var markers = []
-    const container = document.getElementById('myMap')
+    // const container = document.getElementById('myMap')
+    const container = document.getElementById('map')
     const options = {
-      center: new kakao.maps.LatLng(33.450701, 126.570667),
+      center: new kakao.maps.LatLng(37.504830, 127.048807),
       level: 3,
     }
     const map = new kakao.maps.Map(container, options)
@@ -85,13 +83,15 @@ const MapContainer = ({ searchPlace }) => {
 
   return (
     <div>
-      <div
+
+      {/* <div
         id="myMap"
         style={{
           width: '500px',
           height: '500px',
         }}
-      ></div>
+      ></div> */}
+
       <div id="result-list">
         {Places.map((item, i) => (
           <div key={i} style={{ marginTop: '20px' }}>

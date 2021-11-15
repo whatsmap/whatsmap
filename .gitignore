@@ -39,3 +39,5 @@ out/
 
 # production - front .gitignore
 src/main/whatsmap/build
+
+.env
