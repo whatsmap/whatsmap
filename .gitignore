@@ -39,3 +39,6 @@ out/
 
 # production - front .gitignore
 src/main/whatsmap/build
+
+# API KEY
+src/main/whatsmap/.env
