@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-11-12T00:30:23+0900",
+    date = "2021-11-12T02:12:16+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_201 (Oracle Corporation)"
 )
 @Component
@@ -21,13 +21,6 @@ public class CctvMapMapperImpl implements CctvMapMapper {
 
         CctvMap cctvMap = new CctvMap();
 
-        if ( e.getLatitude() != null ) {
-            cctvMap.setLatitude( e.getLatitude() );
-        }
-        if ( e.getLongitude() != null ) {
-            cctvMap.setLongitude( e.getLongitude() );
-        }
-
         return cctvMap;
     }
 
@@ -38,9 +31,6 @@ public class CctvMapMapperImpl implements CctvMapMapper {
         }
 
         Cctv cctv = new Cctv();
-
-        cctv.setLatitude( d.getLatitude() );
-        cctv.setLongitude( d.getLongitude() );
 
         return cctv;
     }

@@ -33,7 +33,7 @@ class Landing extends Component{
         else{
             return(
                 <div>
-                    <Sidebar setFilters={this.setFilters} />
+                    {/* <Sidebar setFilters={this.setFilters} /> */}
                     <Map cctvs={this.state.cctvs} filters={this.state.filters}/>
                 </div>
             );
