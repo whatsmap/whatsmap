@@ -2,3 +2,8 @@
     background-color: antiquewhite;
     height: 800px;
 }
+
+.Landing:hover img {
+    transform: scale(1.1);
+    cursor: pointer;
+}

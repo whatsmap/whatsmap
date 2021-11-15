@@ -10,7 +10,6 @@ class Landing extends Component{
         this.state = {
             start_map: true,
             filters: [],
-            cctvs: []
         }
     }
 
@@ -24,18 +23,18 @@ class Landing extends Component{
         if(this.state.start_map){
             return(
                 <div className="Landing">
-                    <h3>랜딩페이지</h3>
-                    <button onClick={function(){this.onStartMap()}.bind(this)}>
-                    버튼</button>
+                    {/* <h3>랜딩페이지</h3> */}
+                    {/* <button onClick={function(){this.onStartMap()}.bind(this)}>
+                    버튼</button> */}
+                    <img src="images/whatsmap.png" width="200" onClick={function(){this.onStartMap()}.bind(this)} />
                 </div>
             );
         }
         else{
             return(
                 <div>
-                    <Sidebar setFilters={this.setFilters} />
+                    {/* <Sidebar setFilters={this.setFilters} /> */}
                     <Map cctvs={this.state.cctvs} filters={this.state.filters}/>
-
                 </div>
             );
         }

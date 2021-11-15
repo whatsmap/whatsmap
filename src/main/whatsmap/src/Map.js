@@ -1,310 +1,307 @@
 /*global kakao*/
-import React, { Component, useRef } from "react";
+import React, { Component } from "react";
 
 import DrawMap from "./DrawMap";
 import "./css/Map.css";
+import Search from "./Search";
 
 class Map extends Component {
 
   constructor(props) {
     super(props);
-    this.infowindow = React.createRef(); // createRef() - getByElement 대체 
-
     this.state = {
-      window_data: "Hello World!",
-
-      cctv: [37.497535461505684, 127.02948149502778],
-      wifi: ["37.481974", "127.057478"],
-      parkinglot: [37.527308, 127.028324],
-
-      cctvImgSrc: "images/cctv.png",
-      wifiImgSrc: "images/wifi.png",
-      ParkingLotImgSrc: "images/parking.png",
-
-      type: "cctv",
-
-      cctvMarkers: [],
-      wifiMarkers: [],
-      parkingLotMarkers: [],
-
-      cctvPositions: [],
-
-      wifiPositions: [
-        new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
-        new kakao.maps.LatLng(37.49671536281186, 127.03020491448352),
-        new kakao.maps.LatLng(37.496201943633714, 127.02959405469642),
-        new kakao.maps.LatLng(37.49640072567703, 127.02726459882308),
-        new kakao.maps.LatLng(37.49640098874988, 127.02609983175294),
-        new kakao.maps.LatLng(37.49932849491523, 127.02935780247945),
-        new kakao.maps.LatLng(37.49996818951873, 127.02943721562295),
-      ],
-
-      parkingLotPositions: [
-        new kakao.maps.LatLng(37.49966168796031, 127.03007039430118),
-        new kakao.maps.LatLng(37.499463762912974, 127.0288828824399),
-        new kakao.maps.LatLng(37.49896834100913, 127.02833986892401),
-        new kakao.maps.LatLng(37.49893267508434, 127.02673400572665),
-        new kakao.maps.LatLng(37.49872543597439, 127.02676785815386),
-        new kakao.maps.LatLng(37.49813096097184, 127.02591949495914),
-        new kakao.maps.LatLng(37.497680616783086, 127.02518427952202),
-      ],
+      cctvImgSrc: "images/003_2.png",
+      wifiImgSrc: "images/001_1.png",
+      ParkingLotImgSrc: "images/002.png",
 
       imageSize: new kakao.maps.Size(50, 50),
 
-      overlays: [],
+      center_latitude: 37.504830,
+      center_longitude: 127.048807,
 
-      iwContent: document.getElementById("info-window"), // 여기에 받아온 상세정보들 넣기 - 우송 추가
+      type: "parkingLot",
 
-      // infowindow: new kakao.maps.InfoWindow({
-      //   content: this.iwContent, // 수정 - 우송
-      //   removable : true
-      // })
-      
-      infowindow: new kakao.maps.InfoWindow({
-        content: this.iwContent, // 수정 - 우송
-        position: new kakao.maps.LatLng(37.497535461505684, 127.02948149502778),
-        // removable : true
-      }),
+      //마커와 인포윈도 배열들 
+      //componentDidMount()에서 첫 렌더링 때 1번만 생성하고, 
+      //componentDidUpdate()에서 state값 변경될 떄마다 생성된 배열을 불러와서 필터링or인포윈도 표시
+      cctvMarkers: [],  
+      wifiMarkers: [],
+      parkingLotMarkers: [],
 
-      
+      cctv_infowindows: [],
+      wifi_infowindows: [],
+      parkinglot_infowindows: [],
+    }
+  }
+
+  // ===============================================================================
+  componentDidMount() {
+    
+    var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, this.state.imageSize);
+    var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, this.state.imageSize);
+    var parkingLotImg = new kakao.maps.MarkerImage(this.state.ParkingLotImgSrc, this.state.imageSize);
+
+    var container = document.getElementById("map");
+    var options = {
+      center: new kakao.maps.LatLng(this.state.center_latitude, this.state.center_longitude),
+      level: 5,
+    };
+    var map = new kakao.maps.Map(container, options);
+
+    var cctvMarkers = this.state.cctvMarkers;
+    var wifiMarkers = this.state.wifiMarkers;
+    var parkingLotMarkers = this.state.parkingLotMarkers;
+
+    var cctv_infowindows = this.state.cctv_infowindows;
+    var wifi_infowindows = this.state.wifi_infowindows;
+    var parkinglot_infowindows = this.state.parkinglot_infowindows;
+
+
+    const cctvRequestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    };
+    fetch("http://localhost:80/cctv/allinfo", cctvRequestOptions)
+      .then((response) => response.json())
+      .then(
+        (response) => {
+          this.setState({
+          });
+          createCctvMarkers(response);  // 비동기요청 후 응답이 왔을 때 create 실행 
+        },
+        (error) => {
+          this.setState({
+            //error시 하고싶은거
+          });
+        }
+      );
+
+    const wifiRequestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    };
+    fetch("http://localhost:80/wifi/allinfo", wifiRequestOptions)
+      .then((response) => response.json())
+      .then(
+        (response) => {
+          this.setState({
+          });
+          createWifiMarkers(response);
+        },
+        (error) => {
+          this.setState({
+            //error시 하고싶은거
+          });
+        }
+      );
+
+    const parkinglotRequestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    };
+    fetch("http://localhost:80/parkinglot/allinfo", parkinglotRequestOptions)
+      .then((response) => response.json())
+      .then(
+        (response) => {
+          this.setState({
+          });
+          createParkingLotMarkers(response);
+        },
+        (error) => {
+          this.setState({
+            //error시 하고싶은거
+          });
+        }
+      );
+
+      // ============== 마커 & 인포윈도우 생성하고 배열에 담아서 state로 전송 ============
+
+    function createCctvMarkers(res_position) {
+      for (var i = 0; i < res_position.length; i++) {
+        var marker = new kakao.maps.Marker({
+          position: new kakao.maps.LatLng(res_position[i].latitude, res_position[i].longitude),
+          image: cctvImg,
+        });
+        cctvMarkers.push(marker);
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: `
+          <div style="padding:10px; width:300px;">
+            <p style="font-size:12px; text-align:left;">📷 address : ${res_position[i].newAddress}</p>
+            <p style="font-size:12px; text-align:left;">🏣 management : ${res_position[i].mngName}</p>
+            <p style="font-size:12px; text-align:left;">📞 tel : ${res_position[i].mngPhone}</p>
+          </div>
+        `,
+          removable: true
+        });
+        cctv_infowindows.push(infowindow); 
+      }
+    }
+
+    function createWifiMarkers(res_position) {
+      for (var i = 0; i < res_position.length; i++) {
+        var marker = new kakao.maps.Marker({
+          position: new kakao.maps.LatLng(res_position[i].latitude, res_position[i].longitude),
+          image: wifiImg,
+        });
+        wifiMarkers.push(marker);
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: `
+          <div style="padding:10px; width:300px;">
+            <p style="font-size:12px; text-align:left;">🌈 address : ${res_position[i].newAddress}</p>
+            <p style="font-size:12px; text-align:left;">📌 place : ${res_position[i].place} ${res_position[i].placeDetail}</p>
+            <p style="font-size:12px; text-align:left;">🏣 management : ${res_position[i].mngName}</p>
+            <p style="font-size:12px; text-align:left;">📞 tel : ${res_position[i].mngPhone}</p>
+          </div>
+        `,
+          removable: true
+        });
+        wifi_infowindows.push(infowindow);
+      }
+    }
+
+    function createParkingLotMarkers(res_position) {
+      for (var i = 0; i < res_position.length; i++) {
+        var marker = new kakao.maps.Marker({
+          position: new kakao.maps.LatLng(res_position[i].latitude, res_position[i].longitude),
+          image: parkingLotImg,
+        });
+        parkingLotMarkers.push(marker);
+
+        var infowindow = new kakao.maps.InfoWindow({
+          content: `
+          <div style="padding:10px; width:300px;">
+            <p style="font-size:12px; text-align:left;">🚗 address : ${res_position[i].newAddress}</p>
+            <p style="font-size:12px; text-align:left;">📢 fee : ${res_position[i].feeInfo}</p>
+            <p style="font-size:12px; text-align:left;">💸 기본요금 : 시간당 ${res_position[i].baseRate}원</p>
+            <p style="font-size:12px; text-align:left;">⏰ 평일 이용시간 : ${res_position[i].dstart} ~ ${res_position[i].dend}</p>
+            <p style="font-size:12px; text-align:left;">⏰ 주말 이용시간 : ${res_position[i].sstart} ~ ${res_position[i].send}</p>
+          </div>
+        `,
+          removable: true
+        });
+        parkinglot_infowindows.push(infowindow); 
+        marker.setMap(map);
+      }
     }
 
   }
+  // ====================== state 정보가 바뀔 때마다 실행됨 ====================================
+  componentDidUpdate() {
+    var get_type = this.state.type;
 
+    var container = document.getElementById("map");
+    var options = {
+      center: new kakao.maps.LatLng(this.state.center_latitude, this.state.center_longitude),
+      level: 5,
+    };
+    var map = new kakao.maps.Map(container, options);
 
-// ===============================================================================
-  // componentDidMount() {
-  //   var cctvPositions = this.state.cctvPositions;
-  //   var wifiPositions = this.state.wifiPositions;
-  //   var parkingLotPositions = this.state.parkingLotPositions;
+    var cctvMarkers = this.state.cctvMarkers;
+    var wifiMarkers = this.state.wifiMarkers;
+    var parkingLotMarkers = this.state.parkingLotMarkers;
 
-  //   var cctvImg = new kakao.maps.MarkerImage(this.state.cctvImgSrc, this.state.imageSize);
-  //   var wifiImg = new kakao.maps.MarkerImage(this.state.wifiImgSrc, this.state.imageSize);
-  //   var parkingLotImg = new kakao.maps.MarkerImage(this.state.ParkingLotImgSrc, this.state.imageSize);
-
-  //   // var container = document.getElementById("map");
-  //   // var options = {
-  //   //   center: new kakao.maps.LatLng(37.497535461505684, 127.02948149502778), 
-  //   //   level: 3,
-  //   // };
-  //   // var map = new kakao.maps.Map(container, options);
-
-  //   var cctvMarkers = this.state.cctvMarkers;
-  //   var wifiMarkers = this.state.wifiMarkers;
-  //   var parkingLotMarkers = this.state.parkingLotMarkers;
-
-
-  //   var infowindow = this.state.infowindow;
-
-  //   // for(let i=0; i<wifiMarkers.length; i++) {
-  //   //   kakao.maps.event.addListener(wifiMarkers[i], 'click', function() {
-  //   //     infowindow.open(map, wifiMarkers[i]);
-  //   //   });
-  //   // }
-
-  //   // for(let i=0; i<parkingLotMarkers.length; i++) {
-  //   //   kakao.maps.event.addListener(parkingLotMarkers[i], 'click', function() {
-  //   //     infowindow.open(map, parkingLotMarkers[i]);
-  //   //   });
-  //   // }
-
-  //   function createCctvMarkers() {    
-  //     for (var i = 0; i < cctvPositions.length; i++) {
-  //       var marker = new kakao.maps.Marker({
-  //         position: new kakao.maps.LatLng(cctvPositions[i].latitude, cctvPositions[i].longitude),
-  //         // position: cctvPositions[i],
-  //         image: cctvImg,
-  //         // title: 'CCTV'
-  //         clickable: true
-  //       });
-  //       cctvMarkers.push(marker);
-  //     }
-  //   }
-
-  //   // ====================================
-  //   function createWifiMarkers() {  
-  //     for (var i = 0; i < wifiPositions.length; i++) {
-  //       var marker = new kakao.maps.Marker({
-  //         position: wifiPositions[i],
-  //         image: wifiImg,
-  //         clickable: true
-  //       });
-  //       wifiMarkers.push(marker);
-  //     }
-  //   }
-
-  //   // ====================================
-  //   function createParkingLotMarkers() {
-  //     for (var i = 0; i < parkingLotPositions.length; i++) {
-  //       var marker = new kakao.maps.Marker({
-  //         position: parkingLotPositions[i],
-  //         image: parkingLotImg,
-  //         clickable: true
-  //       });
-  //       parkingLotMarkers.push(marker);
-  //     }
-  //   }
-
-  //   const requestOptions = {
-  //     method: "GET",
-  //     headers: { 
-  //         "Content-Type": "application/json",
-  //         "Accept": "application/json"
-  //     }
-  //   };
-  //   fetch("http://localhost:80/cctv/all", requestOptions)
-  //   .then((response) => response.json())
-  //   .then(
-  //       (response) => {
-  //       this.setState(cctvPositions = response);
-  //       createCctvMarkers();
-  //       },
-  //       (error) => {
-  //       this.setState({
-  //           //error시 하고싶은거
-  //       });
-  //       }
-  //   );
-
-  //   createWifiMarkers();
-  //   createParkingLotMarkers();
-
-  //   console.log(this.map.current);
-  // }
-  // // ====================== state 정보가 바뀔 때마다 실행됨 ====================================
-  // componentDidUpdate() {
-  //   var get_type = this.state.type;
-
-  //   var container = document.getElementById("map");
-  //   var options = {
-  //     center: new kakao.maps.LatLng(37.499590490909185, 127.0263723554437),
-  //     level: 3,
-  //   };
-
-  //   // var map = new kakao.maps.Map(container, options);
-
-  //   var cctvMarkers = this.state.cctvMarkers;
-  //   var wifiMarkers = this.state.wifiMarkers;
-  //   var parkingLotMarkers = this.state.parkingLotMarkers;
-
-  //   function setCctvMarkers(map) {
-  //     for (var i = 0; i < cctvMarkers.length; i++) {
-  //       cctvMarkers[i].setMap(map);
-  //     }
-  //   }
-
-  //   function setWifiMarkers(map) {
-  //     for (var i = 0; i < wifiMarkers.length; i++) {
-  //       wifiMarkers[i].setMap(map);
-  //     }
-  //   }
-
-  //   function setParkingLotMarkers(map) {
-  //     for (var i = 0; i < parkingLotMarkers.length; i++) {
-  //       parkingLotMarkers[i].setMap(map);
-  //     }
-  //   }
-  //   // ====================================
-  //   function changeMarker() {
-  //     var cctvMenu = document.getElementById("cctvMenu");
-  //     var wifiMenu = document.getElementById("wifiMenu");
-  //     var parkingLotMenu = document.getElementById("parkingLotMenu");
-
-  //     if (get_type === "cctv") {
-  //       cctvMenu.className = "menu_selected";
-  //       wifiMenu.className = "";
-  //       parkingLotMenu.className = "";
-
-  //       setCctvMarkers(map);
-  //       setWifiMarkers(null);
-  //       setParkingLotMarkers(null);
-  //     } else if (get_type === "wifi") {
-  //       cctvMenu.className = "";
-  //       wifiMenu.className = "menu_selected";
-  //       parkingLotMenu.className = "";
-
-  //       setCctvMarkers(null);
-  //       setWifiMarkers(map);
-  //       setParkingLotMarkers(null);
-  //     } else if (get_type === "parkingLot") {
-  //       cctvMenu.className = "";
-  //       wifiMenu.className = "";
-  //       parkingLotMenu.className = "menu_selected";
-
-  //       setCctvMarkers(null);
-  //       setWifiMarkers(null);
-  //       setParkingLotMarkers(map);
-  //     }
-  //   }
-
-  //   changeMarker();
-
-    // ===================================
-
-    // var iwContent = this.state.iwContent; // 추가 - 우송
-    // var infowindow = this.state.infowindow;
-
-    //   var overlays = this.state.overlays;
-    //   for(let i=0; i<cctvMarkers.length; i++) {
-    //     var overlay = new kakao.maps.CustomOverlay({
-    //         content: iwContent, // 수정 - 우송
-    //         map: map,
-    //         position: cctvMarkers[i].getPosition(),
-    //         iwRemoveable: true // 추가 - 우송
-    //     });
-    //     overlays.push(overlay);
-    //   }
-
-
-    // for(let i=0; i<cctvMarkers.length; i++) {
-    //   kakao.maps.event.addListener(cctvMarkers[i], 'click', function() {
-    //     // 마커 위에 인포윈도우를 표시합니다
-    //     // infowindow.open(map, cctvMarkers[i]);
-    //     overlays[i].setMap(map);
-    //   });
-    // }
+    var cctv_infowindows = this.state.cctv_infowindows;
+    var wifi_infowindows = this.state.wifi_infowindows;
+    var parkinglot_infowindows = this.state.parkinglot_infowindows;
     
-    // for(let i=0; i<wifiMarkers.length; i++) {
-    //   kakao.maps.event.addListener(wifiMarkers[i], 'click', function() {
-    //     infowindow.open(map, wifiMarkers[i]);
-    //   });
-    // }
+    // =================================================
+    function closeInfoWindow(infowindows) {
+      for(var i = 0; i < infowindows.length; i++){
+        infowindows[i].close();
+      }
+    }
 
-    // for(let i=0; i<parkingLotMarkers.length; i++) {
-    //   kakao.maps.event.addListener(parkingLotMarkers[i], 'click', function() {
-    //     infowindow.open(map, parkingLotMarkers[i]);
-    //   });
-    // }
+    function makeInfoWindow(map, marker, infowindow, infowindows) {
+      return function() {
+        closeInfoWindow(infowindows);
+        infowindow.open(map, marker);
+      }
+    }
+    // =================================================
 
-//  }
+    function setCctvMarkers(map) {
+      for (var i = 0; i < cctvMarkers.length; i++) {
+        cctvMarkers[i].setMap(map);
+        kakao.maps.event.addListener(
+          cctvMarkers[i],
+          'click',
+          makeInfoWindow(map, cctvMarkers[i], cctv_infowindows[i], cctv_infowindows));
+      }
+    }
+
+    function setWifiMarkers(map) {
+      for (var i = 0; i < wifiMarkers.length; i++) {
+        wifiMarkers[i].setMap(map);
+        kakao.maps.event.addListener(
+          wifiMarkers[i],
+          'click',
+          makeInfoWindow(map, wifiMarkers[i], wifi_infowindows[i], wifi_infowindows));
+      }
+    }
+
+    function setParkingLotMarkers(map) {
+      for (var i = 0; i < parkingLotMarkers.length; i++) {
+        parkingLotMarkers[i].setMap(map);
+        kakao.maps.event.addListener(
+          parkingLotMarkers[i],
+          'click',
+          makeInfoWindow(map, parkingLotMarkers[i], parkinglot_infowindows[i], parkinglot_infowindows));
+      }
+    }
+
+    // ====================================
+    function changeMarker() {
+      var cctvMenu = document.getElementById("cctvMenu");
+      var wifiMenu = document.getElementById("wifiMenu");
+      var parkingLotMenu = document.getElementById("parkingLotMenu");
+
+      if (get_type === "cctv") {
+        cctvMenu.className = "menu_selected";
+        wifiMenu.className = "";
+        parkingLotMenu.className = "";
+
+        setCctvMarkers(map);
+        setWifiMarkers(null);
+        setParkingLotMarkers(null);
+      } else if (get_type === "wifi") {
+        cctvMenu.className = "";
+        wifiMenu.className = "menu_selected";
+        parkingLotMenu.className = "";
+
+        setCctvMarkers(null);
+        setWifiMarkers(map);
+        setParkingLotMarkers(null);
+      } else if (get_type === "parkingLot") {
+        cctvMenu.className = "";
+        wifiMenu.className = "";
+        parkingLotMenu.className = "menu_selected";
+
+        setCctvMarkers(null);
+        setWifiMarkers(null);
+        setParkingLotMarkers(map);
+      }
+    }
+
+    changeMarker();
+
+  }
 
   render() {
     return (
       <div id="mapwrap">
-        <div>
-        <DrawMap />
-        </div>
-        {/* <div id="map" className="draw-map"></div> */}
-        <div id="info-window" className="info-window" ref={this.infowindow}>{this.state.window_data}</div>
-
-        {/* <div id="info-window">
-          <div className="wrap">
-            <div className="info">
-                <div className="title">
-                    카카오 스페이스닷원
-                    <div className="close" onClick="closeOverlay()" title="닫기"></div>
-                </div>
-                <div className="body">
-                    <div className="desc">
-                        <div className="ellipsis">제주특별자치도</div>
-                        <div className="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>
-                    </div>
-                </div>
-            </div>
-          </div>
-        </div> */}
-
-
+        <div id="map" className="draw-map"></div>
+        
         <div className="category">
           <ul>
             <li
@@ -336,6 +333,7 @@ class Map extends Component {
             </li>
           </ul>
         </div>
+        
       </div>
     );
   }
