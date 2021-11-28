@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import MapContainer from './MapContainer'
 
+
 function Search() {
   const [InputText, setInputText] = useState('')
   const [Place, setPlace] = useState('')

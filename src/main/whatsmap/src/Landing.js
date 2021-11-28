@@ -2,7 +2,6 @@ import React, {Component} from "react";
 
 import './css/Landing.css';
 import Map from './Map.js';
-import Sidebar from './Sidebar.js';
 
 class Landing extends Component{
     constructor(props){
